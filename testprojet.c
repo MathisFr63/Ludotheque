@@ -341,7 +341,7 @@ int main(void){
 							printf("\nNom\t\tPrénom\t\tInscription\tTel\t\tVille\t\t\tEmprunts\n");
 							printf("¯¯¯\t\t¯¯¯¯¯¯\t\t¯¯¯¯¯¯¯¯¯¯¯\t¯¯¯\t\t¯¯¯¯¯\t\t\t¯¯¯¯¯¯¯¯\n");
 							for(i = 0; i < nbAdh; i++)
-			 					afficheAdh1(tAdh[i]);
+			 					afficheAdh(tAdh[i], choix3);
 			 				break;
 		
 			 			case '2' :
@@ -349,7 +349,7 @@ int main(void){
 							printf("\nPrénom\t\tNom\t\tInscription\tTel\t\tVille\t\t\tEmprunts\n");
 							printf("¯¯¯¯¯¯\t\t¯¯¯\t\t¯¯¯¯¯¯¯¯¯¯¯\t¯¯¯\t\t¯¯¯¯¯\t\t\t¯¯¯¯¯¯¯¯\n");
 			 				for(i = 0; i < nbAdh; i++)
-			 					afficheAdh2(tAdh[i]);
+			 					afficheAdh(tAdh[i], choix3);
 			 				break;
 		
 			 			case '3' :
@@ -357,7 +357,7 @@ int main(void){
 							printf("\nInscription\tNom\t\tPrénom\t\tTel\t\tVille\t\t\tEmprunts\n");
 							printf("¯¯¯¯¯¯¯¯¯¯¯\t¯¯¯\t\t¯¯¯¯¯¯\t\t¯¯¯\t\t¯¯¯¯¯\t\t\t¯¯¯¯¯¯¯¯\n");
 			 				for(i = 0; i < nbAdh; i++)
-			 					afficheAdh3(tAdh[i]);
+			 					afficheAdh(tAdh[i], choix3);
 			 				break;
 		
 			 			case '4' :
@@ -365,7 +365,7 @@ int main(void){
 							printf("\nNom\t\tPrénom\t\tInscription\tTel\t\tVille\t\t\tEmprunts\n");
 							printf("¯¯¯\t\t¯¯¯¯¯¯\t\t¯¯¯¯¯¯¯¯¯¯¯\t¯¯¯\t\t¯¯¯¯¯\t\t\t¯¯¯¯¯¯¯¯\n");
 			 				for(i = 0; i < nbAdh; i++)
-			 					afficheAdh1(tAdh[i]);
+			 					afficheAdh(tAdh[i], choix3);
 			 				break;
 		
 						case '5' :
@@ -470,7 +470,7 @@ int main(void){
 						printf("\nDate\t\tHeure\tNom\t\tPrénom\n");
 						printf("¯¯¯¯\t\t¯¯¯¯¯\t¯¯¯\t\t¯¯¯¯¯¯\n");
 						for (i = 0; i < nbAdhAprem; i++)
-							afficheAdhAprem1(tAdhAprem[i]);
+							afficheAdhAprem(tAdhAprem[i], choix3);
 						break;
 	
 					case '2' :
@@ -478,14 +478,14 @@ int main(void){
 						printf("\nNom\t\tPrénom\t\tDate\t\tHeure\n");
 						printf("¯¯¯\t\t¯¯¯¯¯¯\t\t¯¯¯¯\t\t¯¯¯¯¯\n");
 						for (i = 0; i < nbAdhAprem; i++)
-							afficheAdhAprem2(tAdhAprem[i]);
+							afficheAdhAprem(tAdhAprem[i], choix3);
 						break;
 					case '3' :
 						bulleAdhAprem(tAdhAprem, nbAdhAprem, choix3);
 						printf("\nPrénom\t\tNom\t\tDate\t\tHeure\n");
 						printf("¯¯¯¯¯¯\t\t¯¯¯\t\t¯¯¯¯\t\t¯¯¯¯¯\n");
 						for (i = 0; i < nbAdhAprem; i++)
-							afficheAdhAprem3(tAdhAprem[i]);
+							afficheAdhAprem(tAdhAprem[i], choix3);
 						break;
 					}
 					break;

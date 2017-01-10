@@ -1,80 +1,136 @@
 #include "projet.h"
 
+/*programme : projet.c
+auteur: Mathis FRIZOT | Bernardo PEREIRA AUGUSTO | Pierre Lebon
+date : 19/12/2016
+finalité: Gestion d'une ludothèque
+*/
+
+/* Nom : jVide
+Finalité : retourne une liste vide
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: Aucun
+Valeur retourné: NULL
+Variables : Aucune
+*/
+
 testJeux jVide(void){
 	return NULL;
 }
 
+/* Nom : lireEmp
+Finalité : lit un emprunt grâce au fichier dans lequel sont stockés tout les emprunts
+et stock les données dans un type Emprunt contenant le nom et le prénom de l'ahérent empruntant,
+le nom du jeu emprunter, la date d'empunt, et la date de retour (sachant que la date d'emprunt est " " si l'emprunt n'a pas était retourné)
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: fe, flot contenant les emprunts
+Valeur retourné: emp, Emprunt dans lequel ont été stockées les données
+Variables : emp, Emprunt dans lequel ont été stockées les données
+*/
+
 Emprunt lireEmp(FILE *fe){
 	Emprunt emp;
 
-	fgets(emp.nom,21,fe);
+	fgets (emp.nom,21,fe);
 	if (emp.nom[strlen(emp.nom)-1] == '\n')
 		emp.nom[strlen(emp.nom)-1] = '\0';
-	fgets(emp.prenom,21,fe);
+
+	fgets (emp.prenom,21,fe);
 	if (emp.prenom[strlen(emp.prenom)-1] == '\n')
 		emp.prenom[strlen(emp.prenom)-1] = '\0';
-	fgets(emp.jeux,21,fe);
+
+	fgets (emp.jeux,21,fe);
 	if (emp.jeux[strlen(emp.jeux)-1] == '\n')
 		emp.jeux[strlen(emp.jeux)-1] = '\0';
-	fgets(emp.dateE,12,fe);
+
+	fgets (emp.dateE,12,fe);
 	if (emp.dateE[strlen(emp.dateE)-1] == '\n')
 		emp.dateE[strlen(emp.dateE)-1] = '\0';
-	fgets(emp.dateR,12,fe);
+
+	fgets (emp.dateR,12,fe);
 	if (emp.dateR[strlen(emp.dateR)-1] == '\n')
 		emp.dateR[strlen(emp.dateR)-1] = '\0';
 
 	return emp;
 }
 
+/* Nom : chargeTEmprunts 
+Finalité : charge un par un les Emprunt stockés dans un fichier prévu à cet effet,
+et les stocks dans un tableau d'Emprunt grâce à l'appel de la fonction lireEmp
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les Emprunts
+nbEmp, nombre d'Emprunts au total étant stocké en tête du fichier
+Valeur retourné: tEmp, tableau d'Emprunt
+Variables : tEmp, tableau d'Emprunt
+i, compteur permettant l'insertion des Emprunts au bon endroit dans le tableau
+fe, flot contenant les Emprunts
+*/
 
-Emprunt *chargeTEmprunts(char *nomFichier, int * nbEmpT){
+Emprunt *chargeTEmprunts(char * nomFichier, int * nbEmp){
+	FILE * fe = fopen(nomFichier,"r");
 	Emprunt * tEmp;
 	int i;
-	FILE *fe = fopen(nomFichier,"r");
 	
 	if (fe == NULL){
 		printf("Erreur lors de l'ouverture du fichier\n");
 		return;
 	}
 
-	fscanf (fe,"%d%*c",nbEmpT);
+	fscanf (fe,"%d%*c",nbEmp);
 
-	tEmp = (Emprunt *)malloc(*nbEmpT * sizeof(Emprunt));
+	tEmp = (Emprunt *)malloc(*nbEmp * sizeof(Emprunt));
 	if (tEmp == NULL){
 		printf("Problème d'allocations mémoire\n");
-		return;
+		exit (1);
 	}
 
-	for(i = 0 ; i < *nbEmpT; i++){
+	for(i = 0 ; i < *nbEmp; i++)
 		tEmp[i]=lireEmp(fe);
-	}
 
 	fclose(fe);
 	return tEmp;
 }
 
+/* Nom : afficheEmp
+Finalité : affiche un Emprunt (nom, prénom, jeu, date d'emprunt, date de retour (ou "non rendu"))
+Paramètres entrant: emp, Emprunt à afficher
+Paramètres entrant-sortant: Aucun
+Valeur retourné: Aucune
+Variables : Aucune
+*/
 
-//	 LISTE DE TOUS LES EMPRUNTS
 void afficheEmp(Emprunt emp){  // TRIER PAR NOM ET PRENOM PUIS JEUX OU JEUX PUIS NOM (2 FONCTIONS)
 
 	if(strlen(emp.nom) > 7)
 		printf("%s\t", emp.nom);
 	else
 		printf("%s\t\t", emp.nom);
+
 	if(strlen(emp.prenom) > 7)
 		printf("%s\t", emp.prenom);
 	else
 		printf("%s\t\t", emp.prenom);
+
 	if(strlen(emp.jeux) > 7)
 		printf("%s\t", emp.jeux);
 	else
 		printf("%s\t\t", emp.jeux);
+
 	if(strcmp(emp.dateR,"") == 0)
 		printf("%s\tNon rendu\n", emp.dateE);
 	else
 		printf("%s\t%s\n", emp.dateE, emp.dateR);
 }
 
+/* Nom : lireAdherent
+Finalité : lit un adhérent grâce au fichier dans lequel sont stockés tout les adhérents
+et stock les données dans un type Adherent contenant le nom, le prénom, la date de création,
+le téléphone, la ville, et le nombre d'emprunts de l'ahérent
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: fe, flot contenant les adhérents
+Valeur retourné: adh, Adherent dans lequel ont été stockées les données
+Variables : adh, Adherent dans lequel ont été stockées les données
+*/
 
 Adherent lireAdherent(FILE *fe){
 	Adherent adh;
@@ -82,24 +138,40 @@ Adherent lireAdherent(FILE *fe){
 	fgets(adh.nom,21,fe);
 	if (adh.nom[strlen(adh.nom)-1] == '\n')
 		adh.nom[strlen(adh.nom)-1] = '\0';
+
 	fgets(adh.prenom,21,fe);
 	if (adh.prenom[strlen(adh.prenom)-1] == '\n')
 		adh.prenom[strlen(adh.prenom)-1] = '\0';
+
 	fgets(adh.date,12,fe);
 	if (adh.date[strlen(adh.date)-1] == '\n')
 		adh.date[strlen(adh.date)-1] = '\0';
+
 	fgets(adh.tel,12,fe);
 	if (adh.tel[strlen(adh.tel)-1] == '\n')
 		adh.tel[strlen(adh.tel)-1] = '\0';
+
 	fgets(adh.ville,31,fe);
 	if (adh.ville[strlen(adh.ville)-1] == '\n')
 		adh.ville[strlen(adh.ville)-1] = '\0';
+
 	fscanf(fe,"%d ",&adh.nbEmp);
 
 
 	return adh;
 }
 
+/* Nom : chargeTAdherent 
+Finalité : charge un par un les Adherent stockés dans un fichier prévu à cet effet,
+et les stockdans un tableau d'Adherent grâce à l'appel de la fonction lireAdherent
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les Adherent
+nbAdh, nombre d'Adherent au total étant stocké en tête du fichier
+Valeur retourné: tAdh, tableau d'Adherent
+Variables : tAdh, tableau d'Adherent
+i, compteur permettant l'insertion des Adherent au bon endroit dans le tableau
+fe, flot contenant les Adherent
+*/
 
 Adherent *chargeTAdherent(char *nomFichier, int * nbAdh){
 	Adherent * tAdh;
@@ -126,57 +198,72 @@ Adherent *chargeTAdherent(char *nomFichier, int * nbAdh){
 	return tAdh;
 }
 
+/* Nom : afficheAdh
+Finalité : affiche un Adherent (nom, prénom, jeu, date d'emprunt, date de retour (ou "non rendu"))
+Paramètres entrant: adh, Adherent à afficher
+choix, choix de l'affichage
+Paramètres entrant-sortant: Aucun
+Valeur retourné: Aucune
+Variables : Aucune
+*/
 
-//	LISTE DE TOUS LES ADHERENTS
-void afficheAdh1(Adherent adh){
-	if(strlen(adh.nom) > 7)
-		printf("%s\t", adh.nom);
-	else
-		printf("%s\t\t", adh.nom);
-	if(strlen(adh.prenom) > 7)
-		printf("%s\t%s\t%s\t", adh.prenom, adh.date, adh.tel);
-	else
-		printf("%s\t\t%s\t%s\t", adh.prenom, adh.date, adh.tel);
-	if(strlen(adh.ville) > 14)
-		printf("%s\t%d\n", adh.ville, adh.nbEmp);
-	else if(strlen(adh.ville) > 7 )
-		printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
-	else
-		printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
-}
+void afficheAdh1(Adherent adh, char choix){
+	if (choix == '1' || choix == '4'){
+		if(strlen(adh.nom) > 7)
+			printf("%s\t", adh.nom);
+		else
+			printf("%s\t\t", adh.nom);
 
-void afficheAdh2(Adherent adh){
-	if(strlen(adh.prenom) > 7)
-		printf("%s\t", adh.prenom);
-	else
-		printf("%s\t\t", adh.prenom);
-	if(strlen(adh.nom) > 7)
-		printf("%s\t%s\t%s\t", adh.nom, adh.date, adh.tel);
-	else
-		printf("%s\t\t%s\t%s\t", adh.nom, adh.date, adh.tel);
-	if(strlen(adh.ville) > 14)
-		printf("%s\t%d\n", adh.ville, adh.nbEmp);
-	else if(strlen(adh.ville) > 7 )
-		printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
-	else
-		printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
-}
+		if(strlen(adh.prenom) > 7)
+			printf("%s\t%s\t%s\t", adh.prenom, adh.date, adh.tel);
+		else
+			printf("%s\t\t%s\t%s\t", adh.prenom, adh.date, adh.tel);
 
-void afficheAdh3(Adherent adh){
-	if(strlen(adh.nom) > 7)
-		printf("%s\t%s\t", adh.date, adh.nom);
-	else
-		printf("%s\t%s\t\t", adh.date, adh.nom);
-	if(strlen(adh.prenom) > 7)
-		printf("%s\t%s\t", adh.prenom, adh.tel);
-	else
-		printf("%s\t\t%s\t", adh.prenom, adh.tel);
-	if(strlen(adh.ville) > 14)
-		printf("%s\t%d\n", adh.ville, adh.nbEmp);
-	else if(strlen(adh.ville) > 7 )
-		printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
-	else
-		printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
+		if(strlen(adh.ville) > 14)
+			printf("%s\t%d\n", adh.ville, adh.nbEmp);
+		else if(strlen(adh.ville) > 7 )
+			printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
+		else
+			printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
+	}
+
+	else if (choix == '2'){
+		if(strlen(adh.prenom) > 7)
+			printf("%s\t", adh.prenom);
+		else
+			printf("%s\t\t", adh.prenom);
+
+		if(strlen(adh.nom) > 7)
+			printf("%s\t%s\t%s\t", adh.nom, adh.date, adh.tel);
+		else
+			printf("%s\t\t%s\t%s\t", adh.nom, adh.date, adh.tel);
+		
+		if(strlen(adh.ville) > 14)
+			printf("%s\t%d\n", adh.ville, adh.nbEmp);
+		else if(strlen(adh.ville) > 7 )
+			printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
+		else
+			printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
+	}
+
+	else if (choix == '3'){
+		if(strlen(adh.nom) > 7)
+			printf("%s\t%s\t", adh.date, adh.nom);
+		else
+			printf("%s\t%s\t\t", adh.date, adh.nom);
+		
+		if(strlen(adh.prenom) > 7)
+			printf("%s\t%s\t", adh.prenom, adh.tel);
+		else
+			printf("%s\t\t%s\t", adh.prenom, adh.tel);
+		
+		if(strlen(adh.ville) > 14)
+			printf("%s\t%d\n", adh.ville, adh.nbEmp);
+		else if(strlen(adh.ville) > 7 )
+			printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
+		else
+			printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
+	}
 }
 
 Adherent * newAdherent(Adherent *tAdh,int *nbAdh){ // L'ADHÉRENT NE DOIT PAS EXISTER
@@ -371,10 +458,10 @@ int rechJeux(testJeux j, char * jeu){
 	return -1;
 }
 
-int rechEmpruntJeu(Emprunt * tEmp, int nbEmpT, char * nom, char * prenom, char * jeu){
+int rechEmpruntJeu(Emprunt * tEmp, int nbEmp, char * nom, char * prenom, char * jeu){
 	int i;
 
-	for (i = 0; i < nbEmpT; i++){
+	for (i = 0; i < nbEmp; i++){
 		if (strcasecmp(tEmp[i].nom, nom) == 0 && strcasecmp(tEmp[i].prenom, prenom) == 0 && strcasecmp(tEmp[i].jeux, jeu) == 0)
 			return i;
 	}
@@ -402,7 +489,7 @@ int rechAdhAprem(AdhAprem * tAdhAprem, int nbAdhAprem, char * date, char * heure
 	return -1;
 }
 
-void rendreJeu(Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmpT, testJeux j){
+void rendreJeu(Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmp, testJeux j){
 	char nom[20], prenom[20], jeu[30];
 	int trouve, i;
 	FILE * fe = fopen("date.txt","r");
@@ -424,7 +511,7 @@ void rendreJeu(Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmpT, testJeux 
 	if (jeu[strlen(jeu)-1] == '\n')
 		jeu[strlen(jeu)-1] = '\0';
 
-	trouve = rechEmpruntJeu(tEmp, nbEmpT, nom, prenom, jeu);
+	trouve = rechEmpruntJeu(tEmp, nbEmp, nom, prenom, jeu);
 	if (trouve == -1){
 		return;
 	}
@@ -984,7 +1071,7 @@ testJeux newJeu(testJeux j,int * nbJeux){
 	fgets(j->type,21,stdin);
 	if (j->type[strlen(j->type)-1] == '\n')
 		j->type[strlen(j->type)-1] = '\0';
-	
+
 	if (strcmp(j->type, "1") == 0)
 		strcpy(j->type, "Jeux de plateforme");
 	else if (strcmp(j->type, "2") == 0)
