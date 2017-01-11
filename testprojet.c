@@ -7,7 +7,7 @@ int main(void){
 	AdhAprem *tAdhAprem;
 	testJeux j;
 	int nbEmpT, nbAdh, nbAprem, nbAdhAprem, nbJeux = 0, i, retard;
-	char choix[10], choix2, choix3, test, nomJ[30];
+	char choix, choix2, choix3, test, nomJ[30];
 	Cellule * tmp;
 
 	tAdh = chargeTAdherent("adhérents.don", &nbAdh);
@@ -16,25 +16,23 @@ int main(void){
 	tAdhAprem = chargeAdhAprem("inscription_am_th.don", &nbAdhAprem);
 	j = jVide();
 	j = chargeJeux("jeux.bin", &nbJeux, tEmp, nbEmpT);
-	
-
 
 	affichMenu();
-	printf("\nMenu : Que voulez vous faire ? (tapez un chiffre) ");
-	scanf("%s%*c", choix);
+	printf("\nMenu : Que voulez vous faire ? (tapez un chiffre) : ");
+	choix = saisirChoix();
 	printf("\n");
-	while (strcmp(choix, "9") != 0){
-		while (strcmp(choix, "0") != 0 && strcmp(choix, "1") != 0 && strcmp(choix, "2") != 0 && strcmp(choix, "3") != 0 && strcmp(choix, "4") != 0 && strcmp(choix, "5") !=0 && strcmp(choix, "6") !=0 && strcmp(choix, "7") != 0 && strcmp(choix, "8") != 0){
-		printf("Retapez s'il vous plaît (le chiffre doit être compris entre 0 et 9)\n");
-		printf("\nMenu : Que voulez vous faire ? (tapez un chiffre) ");
-		scanf("%s%*c", choix);
-		printf("\n");
+	while (choix != '9'){
+		while (choix != '0' && choix != '1' && choix != '2' && choix != '3' && choix != '4' && choix != '5' && choix != '6' && choix != '7' && choix != '8' && choix != '9'){
+			printf("Retapez s'il vous plaît (le chiffre doit être compris entre 0 et 9)\n");
+			printf("\nMenu : Que voulez vous faire ? (tapez un chiffre) ");
+			choix = saisirChoix();
+			printf("\n");
 		}
 
-		if (strcmp(choix, "0") == 0)
+		if (choix == '0')
 			affichMenu();
 			
-		if (strcmp(choix, "1") == 0){
+		if (choix == '1'){
 			printf("\t\\\\ Modification sur Adhérent //\n");
 			printf("0) Retour au Menu\n");
 			printf("1) Inscrire un Adhérent\n");
@@ -43,12 +41,12 @@ int main(void){
 			printf("4) Modifier le numéro de téléphone d'un Adhérent\n");
 			printf("5) Modifier la ville d'un Adhérent\n");
 			printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-			scanf("%c%*c", &choix2);
+			choix = saisirChoix();
 			printf("\n");
 
 			while (choix2 != '0' && choix2 != '1' && choix2 != '2' && choix2 != '3' && choix2 != '4' && choix2 != '5'){
 				printf("Vous devez taper un chiffre entre 0 et 5. Retapez : ");
-				scanf("%c%*c", &choix2);
+				choix2 = saisirChoix();
 			}
 
 			switch (choix2){
@@ -81,18 +79,18 @@ int main(void){
 			}
 		}
 
-		if (strcmp(choix, "2") == 0){
+		if (choix == '2'){
 			printf("\t\\\\ Modification sur Emprunt //\n");
 			printf("0) Retour au Menu\n");
 			printf("1) Enregistrer un Emprunt\n");
 			printf("2) Retourner un Emprunt\n");
 			printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-			scanf("%c%*c", &choix2);
+			choix2 = saisirChoix();
 			printf("\n");
 
 			while (choix2 != '0' && choix2 != '1' && choix2 != '2'){
 				printf("Vous devez taper un chiffre entre 0 et 2. Retapez : ");
-				scanf("%c%*c", &choix2);
+				choix2 = saisirChoix();
 			}
 
 			switch (choix2){
@@ -136,7 +134,7 @@ int main(void){
 				}
 		}		
 
-		if (strcmp(choix, "3") == 0){
+		if (choix == '3'){
 			printf("\t\\\\ Modification sur Après-midi Thématique //\n");
 			printf("0) Retour au Menu\n");
 			printf("1) Créer un Après-midi Thématique\n");
@@ -144,12 +142,12 @@ int main(void){
 			printf("3) Modifier la date ou l'heure d'un Après-midi Thématique\n");
 			printf("4) Modifier le nombre de places d'un Après-midi Thématique\n");
 			printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-			scanf("%c%*c", &choix2);
+			choix2 = saisirChoix();
 			printf("\n");
 
 			while (choix2 != '0' && choix2 != '1' && choix2 != '2' && choix2 != '3' && choix2 != '4'){
 				printf("Vous devez taper un chiffre entre 0 et 4. Retapez : ");
-				scanf("%c%*c", &choix2);
+				choix2 = saisirChoix();
 			}
 
 			switch (choix2){
@@ -189,18 +187,18 @@ int main(void){
 			}
 		}
 
-		if (strcmp(choix, "4") == 0){
+		if (choix == '4'){
 			printf("\t\\\\ Modification sur Adhérent à un Après-midi Thématique //\n");
 			printf("0) Retour au Menu\n");
 			printf("1) Inscrire un Adhérent à un Après-midi Thématique\n");
 			printf("2) Supprimer un Adhérent d'un Après-midi Thématique\n");
 			printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-			scanf("%c%*c", &choix2);
+			choix2 = saisirChoix();
 			printf("\n");
 
 			while (choix2 != '0' && choix2 != '1' && choix2 != '2'){
 				printf("Vous devez taper un chiffre entre 0 et 2. Retapez : ");
-				scanf("%c%*c", &choix2);
+				choix2 = saisirChoix();
 			}
 
 			switch (choix2){
@@ -233,7 +231,7 @@ int main(void){
 			}
 		}
 
-		if (strcmp(choix, "5") == 0){
+		if (choix == '5'){
 			printf("\t\\\\ Modification sur Jeu //\n");
 			printf("0) Retour au Menu\n");
 			printf("1) Enregistrer un Jeu\n");
@@ -241,12 +239,12 @@ int main(void){
 			printf("3) Modifier le nom d'un Jeu\n");
 			printf("4) Modifier le nombre d'exemplaires d'un Jeu\n");
 			printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-			scanf("%c%*c", &choix2);
+			choix2 = saisirChoix();
 			printf("\n");
 
 			while (choix2 != '0' && choix2 != '1' && choix2 != '2' && choix2 != '3' && choix2 != '4'){
 				printf("Vous devez taper un chiffre entre 0 et 4. Retapez : ");
-				scanf("%c%*c", &choix2);
+				choix2 = saisirChoix();
 			}
 
 			switch (choix2){
@@ -292,7 +290,7 @@ int main(void){
 			}
 		}
 
-		if (strcmp(choix, "6") == 0){
+		if (choix == '6'){
 			printf("\t\\\\ Affichage //\n");
 			printf("0) Retour au Menu\n");
 			printf("1) Adhérents\n");
@@ -301,13 +299,13 @@ int main(void){
 			printf("4) Adhérents à des après-midi thématiques\n");
 			printf("5) Jeux\n");
 			printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-			scanf("%c%*c", &choix2);
+			choix2 = saisirChoix();
 			printf("\n");
 
 			while (choix2 != '0' && choix2 != '1' && choix2 != '2' && choix2 != '3' && choix2 != '4' && choix2 != '5'){
-						printf("Vous devez taper un chiffre entre 0 et 5. Retapez : ");
-						scanf("%c%*c", &choix2);
-					}
+				printf("Vous devez taper un chiffre entre 0 et 5. Retapez : ");
+				choix2 = saisirChoix();
+			}
 
 			switch (choix2){
 				case '0' :
@@ -323,13 +321,13 @@ int main(void){
 					printf("4) Afficher les adhérents par nombre d'emprunts\n");
 					printf("5) Afficher les adhérents ayant un retard\n");
 					printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-					scanf("%c%*c", &choix3);
+					choix3 = saisirChoix();
 					printf("\n");
 					
 					while (choix3 != '0' && choix3 != '1' && choix3 != '2' && choix3 != '3' && choix3 != '4' && choix3 != '5'){
-							printf("Vous devez taper un chiffre entre 0 et 5. Retapez : ");
-							scanf("%c%*c", &choix3);
-						}
+						printf("Vous devez taper un chiffre entre 0 et 5. Retapez : ");
+						choix3 = saisirChoix();
+					}
 
 					switch (choix3){
 						case '0' :
@@ -386,12 +384,12 @@ int main(void){
 					printf("2) Afficher les emprunts par Prénom\n");
 					printf("3) Afficher les emprunts par Jeu\n");
 					printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-					scanf("%c%*c", &choix3);
+					choix3 = saisirChoix();
 					printf("\n");
 	
 					while (choix3 != '0' && choix3 != '1' && choix3 != '2' && choix3 != '3'){
 						printf("Vous devez taper un chiffre entre 0 et 3. Retapez : ");
-						scanf("%c%*c", &choix3);
+						choix3 = saisirChoix();
 					}
 	
 					switch (choix3){
@@ -418,12 +416,12 @@ int main(void){
 					printf("2) Afficher les aprem par Places\n");
 					printf("3) Afficher les aprem par Places Libres\n");
 					printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-					scanf("%c%*c", &choix3);
+					choix3 = saisirChoix();
 					printf("\n");
 	
 					while (choix3 != '0' && choix3 != '1' && choix3 != '2' && choix3 != '3'){
 						printf("Vous devez taper un chiffre entre 0 et 3. Retapez : ");
-						scanf("%c%*c", &choix3);
+						choix3 = saisirChoix();
 					}
 	
 					switch (choix3){
@@ -452,12 +450,12 @@ int main(void){
 					printf("2) Afficher les adhérents par Nom\n");
 					printf("3) Afficher les adhérents par Prénom\n");
 					printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-					scanf("%c%*c", &choix3);
+					choix3 = saisirChoix();
 					printf("\n");
 	
 					while (choix3 != '0' && choix3 != '1' && choix3 != '2' && choix3 != '3'){
 						printf("Vous devez taper un chiffre entre 0 et 3. Retapez : ");
-						scanf("%c%*c", &choix3);
+						choix3 = saisirChoix();
 					}
 	
 					switch (choix3){
@@ -497,12 +495,12 @@ int main(void){
 					printf("2) Afficher les jeux par Nombre d'exemplaires\n");
 					printf("3) Afficher les jeux par Type\n");
 					printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-					scanf("%c%*c", &choix3);
+					choix3 = saisirChoix();
 					printf("\n");
 	
 					while (choix3 != '0' && choix3 != '1' && choix3 != '2' && choix3 != '3'){
 						printf("Vous devez taper un chiffre entre 0 et 3. Retapez : ");
-						scanf("%c%*c", &choix3);
+						choix3 = saisirChoix();
 					}
 	
 					switch (choix3){
@@ -514,8 +512,8 @@ int main(void){
 						case '2' :
 						case '3' :
 							j = triJeux(j, nbJeux, choix3);
-							printf("\nNom\t\t\tExemplaires\tType\n");
-							printf("¯¯¯\t\t\t¯¯¯¯¯¯¯¯¯¯¯\t¯¯¯¯\n");
+							printf("\nNom\t\t\tExemplaires\tEn Stock\tType\n");
+							printf("¯¯¯\t\t\t¯¯¯¯¯¯¯¯¯¯¯\t¯¯¯¯¯¯¯¯\t¯¯¯¯\n");
 							afficheJeux(j);
 							break;
 					}
@@ -523,19 +521,19 @@ int main(void){
 			}
 		}
 	
-		if (strcmp(choix, "7") == 0){
+		if (choix == '7'){
 			printf("\t\\\\ Recherche //\n");
 			printf("0) Retour au Menu\n");
 			printf("1) Adhérents\n");
 			printf("2) Après-midi thématique\n");
 			printf("3) Jeux\n");
 			printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-			scanf("%c%*c", &choix2);
+			choix2 = saisirChoix();
 			printf("\n");
 
 			while (choix2 != '0' && choix2 != '1' && choix2 != '2' && choix2 != '3'){
 				printf("Vous devez taper un chiffre entre 0 et 3. Retapez : ");
-				scanf("%c%*c", &choix2);
+				choix2 = saisirChoix();
 			}
 
 			switch (choix2){
@@ -575,7 +573,7 @@ int main(void){
 			}
 		}
 
-		if (strcmp(choix, "8") == 0){
+		if (choix == '8'){
 			affichGrandMenu();
 		}
 			triInsertionAdh(tAdh, nbAdh);
@@ -585,10 +583,10 @@ int main(void){
 			j = triJeux(j, nbJeux, '1');
 			save(tAdh, tEmp, tAprem, tAdhAprem, j, nbAdh, nbEmpT, nbAprem, nbAdhAprem, nbJeux);
 			printf("\nMenu : Que voulez vous faire ? (tapez un chiffre) ");
-			scanf("%s%*c", choix);
+			choix = saisirChoix();
 			printf("\n");
 	}
-	if (strcmp(choix, "9") == 0)
+	if (choix == '9')
 		save(tAdh, tEmp, tAprem, tAdhAprem, j, nbAdh, nbEmpT, nbAprem, nbAdhAprem, nbJeux);
 
 	free(tAdh);
