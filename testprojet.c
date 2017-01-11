@@ -5,7 +5,7 @@ int main(void){
 	Adherent *tAdh;
 	Aprem *tAprem;
 	AdhAprem *tAdhAprem;
-	testJeux j;
+	ListeJ j;
 	int nbEmpT, nbAdh, nbAprem, nbAdhAprem, nbJeux = 0, i, retard;
 	char choix, choix2, choix3, test, nomJ[30];
 	Cellule * tmp;
@@ -41,7 +41,7 @@ int main(void){
 			printf("4) Modifier le numéro de téléphone d'un Adhérent\n");
 			printf("5) Modifier la ville d'un Adhérent\n");
 			printf("\nQue voulez vous faire ? (tapez un chiffre) ");
-			choix = saisirChoix();
+			choix2 = saisirChoix();
 			printf("\n");
 
 			while (choix2 != '0' && choix2 != '1' && choix2 != '2' && choix2 != '3' && choix2 != '4' && choix2 != '5'){
@@ -66,6 +66,7 @@ int main(void){
 					printf("\n");
 					supprAdherent(tAdh, &nbAdh);
 					break;
+
 				case '3' :
 				case '4' :
 				case '5' :

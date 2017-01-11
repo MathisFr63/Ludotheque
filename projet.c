@@ -30,7 +30,7 @@ char saisirChoix(void){
 			if (verif != ' ' && verif != '\t')
 				choix = '!';
 	}
-
+	printf("Choix : \"%c\"\n", choix);
 	return choix;
 }
 
@@ -533,7 +533,7 @@ int rechJeux(ListeJ j, char * jeu){
 
 	while (j != NULL){
 		if (strcasecmp(j->nom, jeu) == 0)
-			return i;
+			return trouve;
 		j = j->suiv;
 		trouve++;
 	}
@@ -886,9 +886,10 @@ heure, heure de l'Aprem à supprimer
 choix, choix de l'utilisateur quant à la suppression lorque l'Aprem existe mais que des adhérents sont inscrits
 trouve, position de l'Aprem dans le tableau d'Aprem ou -1 si l'Aprem n'a pas été trouvée
 i, compteur
+j, compteur
 */
 void supprAprem(Aprem * tAprem, int * nbAprem, AdhAprem * tAdhAprem, int * nbAdhAprem){
-	int trouve, i;
+	int trouve, i, j;
 	char date[11], heure[5], choix;
 
 	printf("Date (AAAA-MM-JJ) : ");
@@ -906,7 +907,7 @@ void supprAprem(Aprem * tAprem, int * nbAprem, AdhAprem * tAdhAprem, int * nbAdh
 	if (tAprem[trouve].places - tAprem[trouve].placesL != 0){
 		printf("\nDes adhérents sont inscrits à l'après-midi thématique du %s à %s\n", date, heure);
 		printf("\nVoulez-vous vraiment supprimer cet après-midi thématique (O/N) ?");
-		scanf("%c%*c", &choix);
+		choix = saisirChoix();
 		
 		while (choix != 'O' && choix != 'o' && choix != 'N' && choix != 'n'){
 			printf("Vous-devez répondre par 'O' ou 'N' retapez : ");
@@ -917,14 +918,14 @@ void supprAprem(Aprem * tAprem, int * nbAprem, AdhAprem * tAdhAprem, int * nbAdh
 			return;
 	}
 
-	for (i = trouve; i < * nbAprem - 1; i++)
+	for (i = trouve; i < *nbAprem - 1; i++)
 		tAprem[i] = tAprem[i+1];
 
-	for (i = 0; i < * nbAdhAprem - 1; i++){
+	for (i = 0; i < *nbAdhAprem - 1; i++){
 		if (strcasecmp(tAdhAprem[i].date, date) == 0 && strcasecmp(tAdhAprem[i].heure, heure) == 0){
-			for (j = i; j < * nbAdhAPrem; j++)
+			for (j = i; j < *nbAdhAprem; j++)
 				tAdhAprem[j] = tAdhAprem[j+1];
-			(*nbAdhAprem)--;
+			(nbAdhAprem)--;
 		}
 	}
 
