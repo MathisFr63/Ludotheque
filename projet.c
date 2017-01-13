@@ -1544,6 +1544,27 @@ ListeJ modifJeu(ListeJ j, Emprunt * tEmp, int nbEmp, char choix, char * nomJ){
 	return j;
 }
 
+/* Nom : save
+Finalité : sauvegarde tous les tableaux (Adherent, Emprunt, Aprem, AdhAprem) et la liste (Jeux)
+dans des fchiers (chargés au d"but du programme) permettant à la ludothèque de réutiliser les données
+Paramètres entrant: j, liste de jeux
+nbAdh, nombre total d'Adherent
+nbEmp, nombre total d'Emprunt
+nbAprem, nombre total d'Aprem
+nbAdhAprem, nombre total d'AdhAprem
+nbJeux, nombre total de jeux
+Paramètres entrant-sortant: tAdh, tableau d'Adherent
+tEmp, tableau d'Emprunt
+tAprem, tableau d'Aprem
+tAdhAprem, tableau d'AdhAprem
+Valeur retourné: Aucune
+Variables : i, compteur
+flot1, flot d'écriture dans lequel vont être stockés les Adherent
+flot2, flot d'écriture dans lequel vont être stockés les Emprunt
+flot3, flot d'écriture dans lequel vont être stockés les Aprem
+flot4, flot d'écriture dans lequel vont être stockés les AdhAprem
+flot5, flot binaire d'écriture dans lequel vont être stockés les jeux
+*/
 void save(Adherent * tAdh, Emprunt * tEmp, Aprem * tAprem, AdhAprem * tAdhAprem, ListeJ j, int nbAdh, int nbEmp, int nbAprem, int nbAdhAprem, int nbJeux){
 	int i;
 	
@@ -1608,20 +1629,32 @@ void save(Adherent * tAdh, Emprunt * tEmp, Aprem * tAprem, AdhAprem * tAdhAprem,
 	fclose(flot5);
 }
 
-
+/* Nom : verifDateEmprunt
+Finalité : Vérifie qu'un emprunt (qui n'a pas de date de retour) n'est pas en retard c'est à dire qu'il n'est pas emprunté depuis plus de 3 semaines
+Paramètres entrant: emp, Emprunt dont on veut vérifier le retard
+Paramètres entrant-sortant: Aucun
+Valeur retourné: 1, si l'Emprunt n'est pas en retard; 0 si il y a eu une erreur d'ouverture avec un fichier et -1 si l'Emprunt est en retard
+Variables : jourA, valeur du jour actuel
+moisA, valeur du mois actuel
+anneeA, valeur de l'année actuelle
+jourR, valeur du jour maximal (3 semaines avant la date d'aujourd'hui) pour lequel les emprunts sont encore en règle
+moisR, valeur du mois maximal
+anneeR, valeur de l'année maximale
+rendre, chaîne de caractère de la forme AAAA-MM-JJ à comparer avec la date d'emprunt  pour vérifier le respect des contraintes par l'Emprunt
+*/
 int verifDateEmprunt(Emprunt emp){
 	int jourA, moisA, anneeA, jourR, moisR, anneeR;
-	char rendre[15];
+	char rendre[11];
 
 	FILE * fe = fopen("date.txt", "r");
 	FILE * fs = fopen("retard.don","w");
 	if (fe == NULL){
 		printf("Erreur lors de l'ouverture du fichier date.txt\n");
-		return;
+		return 0;
 	}
 	if (fs == NULL){
-		printf("Erreur lors de l'ouverture du fichier test.don\n");
-		return;
+		printf("Erreur lors de l'ouverture du fichier retard.don\n");
+		return 0;
 	}
 	
 	if(strcmp(emp.dateR, "") == 0){
@@ -1658,6 +1691,7 @@ int verifDateEmprunt(Emprunt emp){
 		
 		else if (jourR == 1 || jourR == 2 || jourR == 3 || jourR == 4 || jourR == 5 || jourR == 6 || jourR == 7 || jourR == 8 || jourR == 9)
 			fprintf(fs, "%d-%d-0%d\n", anneeR, moisR, jourR);
+		
 		else
 			fprintf(fs, "%d-%d-%d\n", anneeR, moisR, jourR);
 
@@ -1665,23 +1699,32 @@ int verifDateEmprunt(Emprunt emp){
 		FILE * fs = fopen("retard.don","r");
 		if (fs == NULL){
 			printf("Erreur lors de l'ouverture du fichier test.don\n");
-			return;
+			return 0;
 		}
 		
 		fgets(rendre,16,fs);
 		if (rendre[strlen(rendre)-1] == '\n')
 			rendre[strlen(rendre)-1] = '\0';
 
-		if (strcasecmp(emp.dateE,rendre) < 0)
+		if (strcasecmp(emp.dateE, rendre) < 0)
 			return -1;
 	}
 
 	fclose(fe);
 	fclose(fs);
+	return 1;
 }
 
-
-int triSelectEmp(Emprunt * tEmp, int nbEmp, char choix){
+/* Nom : triSelectEmp
+Finalité : tri un tableau d'emprunt selon le choix de l'utilisateur
+Paramètres entrant: nbEmp, nombre total d'Emprunt
+choix, choix de l'utilisateur
+Paramètres entrant-sortant: tEmp, tableau d'Emprunt
+Valeur retourné: Aucune
+Variables : pos, position d'insertion de l'Emprunt à replacer dans un tableau d'Emprunt trié
+emp, Emprunt temporaire pemettant d'interchanger deux emprunts et ainsi de trier le tableau
+*/
+void triSelectEmp(Emprunt * tEmp, int nbEmp, char choix){
 	int pos;
 	Emprunt emp;
 
@@ -1692,6 +1735,7 @@ int triSelectEmp(Emprunt * tEmp, int nbEmp, char choix){
 			pos = rechminEP(tEmp, nbEmp);
 		if (choix == '3')
 			pos = rechminEJ(tEmp, nbEmp);
+		
 		emp = tEmp[0];
 		tEmp[0] = tEmp[pos];
 		tEmp[pos] = emp;
@@ -1706,11 +1750,14 @@ int rechminEN(Emprunt * tEmp, int nbEmp){
 	for (i = 0; i < nbEmp; i++){
 		if (strcasecmp(tEmp[i].nom, tEmp[pos].nom) < 0)
 			pos = i;
+		
 		if (strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) < 0)
 			pos = i;
+		
 		if (strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) == 0 && strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) < 0)
 			pos = i;
 	}
+
 	return pos;
 }
 

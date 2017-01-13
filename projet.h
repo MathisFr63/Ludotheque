@@ -84,7 +84,7 @@ int rechEmpruntJeu(Emprunt * tEmp, int nbEmpT, char * nom, char * prenom, char *
 int rechAprem(Aprem * tAprem, int nbAprem, char * date, char * heure);
 int rechAdhAprem(AdhAprem * tAdhAprem, int nbAdhAprem, char * date, char * heure, char * nom, char * prenom);
 int verifDateEmprunt(Emprunt tEmp);
-int triSelectEmp(Emprunt * tEmp, int nbEmp, char choix);
+void triSelectEmp(Emprunt * tEmp, int nbEmp, char choix);
 int rechminEN(Emprunt * tEmp, int nbEmp);
 int rechminEP(Emprunt * tEmp, int nbEmp);
 int rechminEJ(Emprunt * tEmp, int nbEmp);
