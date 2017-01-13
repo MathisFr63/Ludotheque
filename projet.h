@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 typedef struct{
 	char nom[21];
@@ -100,6 +98,7 @@ void bulleAdhAprem(AdhAprem * tAdhAprem, int nbAdhAprem, char choix);
 void rechJeu(ListeJ j, int nbJeux, Emprunt * tEmp, int nbEmp);
 void rechAdh(Adherent * tAdh, int nbAdh, AdhAprem * tAdhAprem, int nbAdhAprem, Emprunt * tEmp, int nbEmp);
 void rechAp(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int nbAdhAprem);
+int rechNbAD(Aprem *tAprem, int nbAprem, char * date);
 void affichMenu(void);
 void affichGrandMenu(void);
 
