@@ -2227,6 +2227,7 @@ ListeJ triJeux(ListeJ j, int nbJeux, char choix){
 		triJeux = ajouter(triJeux, j, choix);
 		j = j->suiv;
 	}
+	
 	return triJeux;
 }
 
@@ -2241,9 +2242,8 @@ Variables : Aucune
 */
 ListeJ ajouter(ListeJ triJeux, ListeJ j, char choix){
 	if (choix == '1'){
-		if (triJeux == NULL || strcasecmp(triJeux->nom, j->nom) >= 0){
+		if (triJeux == NULL || strcasecmp(triJeux->nom, j->nom) >= 0)
 			triJeux = insererEnTete2(triJeux, j);
-		}
 		else
 			triJeux->suiv = ajouter(triJeux->suiv, j, choix);
 		
@@ -2251,18 +2251,16 @@ ListeJ ajouter(ListeJ triJeux, ListeJ j, char choix){
 	}
 
 	else if (choix == '2'){
-		if (triJeux == NULL || triJeux->nbEx >= j->nbEx){
+		if (triJeux == NULL || triJeux->nbEx >= j->nbEx)
 			triJeux = insererEnTete2(triJeux, j);
-		}
 		else
 			triJeux->suiv = ajouter(triJeux->suiv, j, choix);
 		return triJeux;
 	}
 
 	else if (choix == '3'){
-		if (triJeux == NULL || strcasecmp(triJeux->type, j->type) >= 0){
+		if (triJeux == NULL || strcasecmp(triJeux->type, j->type) >= 0)
 			triJeux = insererEnTete2(triJeux, j);
-		}
 		else
 			triJeux->suiv = ajouter(triJeux->suiv, j, choix);
 		return triJeux;
@@ -2545,6 +2543,28 @@ int rechNbAD(Aprem *tAprem, int nbAprem, char * date){
 	return nb;
 }
 
+/* Nom : supprListeJeux
+Finalité : Libère la mémoire de chaque Cellule de la liste de jeux
+Paramètres entrant: j, liste de jeux dont on souhate libérer la mémoire
+Paramètres entrant-sortant: Aucun
+Valeur retourné: j, liste de jeux apès libération de la mémoire
+Variables : tmp, pointeur sur Cellule dont on veut libérer la mémoire
+*/
+ListeJ supprListeJeux(ListeJ j){
+	Cellule * tmp = j;
+
+	printf("jeu : %s | ", j->nom);
+
+	if (j == NULL)
+		return NULL;
+
+	j = supprListeJeux(j->suiv);
+	
+	free(tmp);
+	return j;
+
+}
+
 /* Nom : affichMenu
 Finalité : affiche le menu à l'écran
 Paramètres entrant: Aucun
@@ -2554,7 +2574,9 @@ Variables : Aucune
 */
 void affichMenu(void){	
 	couleur("36");
+	couleur("1");
 	printf("\t\\\\ Menu //\n");
+	couleur("0");
 	couleur("0");
 	printf("0) Afficher le Menu\n");
 	printf("1) Modification sur Adhérent\n");
@@ -2577,6 +2599,7 @@ Variables : Aucune
 */
 void affichGrandMenu(void){
 	couleur("36");
+	couleur("1");
 	printf("\t\\\\ Sommaire //\n");
 	couleur("34");
 	printf("0) Afficher le Menu\n");
@@ -2654,5 +2677,6 @@ void affichGrandMenu(void){
 	couleur("34");
 	printf("8) Sommaire\n");
 	printf("9) Quitter\n");
+	couleur("0");
 	couleur("0");
 }

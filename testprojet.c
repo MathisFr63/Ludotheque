@@ -44,7 +44,9 @@ int main(void){
 			
 		if (choix == '1'){
 			couleur("36");
+			couleur("1");
 			printf("\t\\\\ Modification sur Adhérent //\n");
+			couleur("0");
 			couleur("0");
 			printf("0) Retour au Menu\n");
 			printf("1) Inscrire un Adhérent\n");
@@ -103,7 +105,9 @@ int main(void){
 
 		if (choix == '2'){
 			couleur("36");
+			couleur("1");
 			printf("\t\\\\ Modification sur Emprunt //\n");
+			couleur("0");
 			couleur("0");
 			printf("0) Retour au Menu\n");
 			printf("1) Enregistrer un Emprunt\n");
@@ -173,7 +177,9 @@ int main(void){
 
 		if (choix == '3'){
 			couleur("36");
+			couleur("1");
 			printf("\t\\\\ Modification sur Après-midi Thématique //\n");
+			couleur("0");
 			couleur("0");
 			printf("0) Retour au Menu\n");
 			printf("1) Créer un Après-midi Thématique\n");
@@ -239,7 +245,9 @@ int main(void){
 
 		if (choix == '4'){
 			couleur("36");
+			couleur("1");
 			printf("\t\\\\ Modification sur Adhérent à un Après-midi Thématique //\n");
+			couleur("0");
 			couleur("0");
 			printf("0) Retour au Menu\n");
 			printf("1) Inscrire un Adhérent à un Après-midi Thématique\n");
@@ -296,7 +304,9 @@ int main(void){
 
 		if (choix == '5'){
 			couleur("36");
+			couleur("1");
 			printf("\t\\\\ Modification sur Jeu //\n");
+			couleur("0");
 			couleur("0");
 			printf("0) Retour au Menu\n");
 			printf("1) Enregistrer un Jeu\n");
@@ -370,7 +380,9 @@ int main(void){
 
 		if (choix == '6'){
 			couleur("36");
+			couleur("1");
 			printf("\t\\\\ Affichage //\n");
+			couleur("0");
 			couleur("0");
 			printf("0) Retour au Menu\n");
 			printf("1) Adhérents\n");
@@ -399,7 +411,9 @@ int main(void){
 
 				case '1' :
 					couleur("36");
+					couleur("1");
 					printf("\t\\\\ Adhérents //\n");
+					couleur("0");
 					couleur("0");
 					printf("0) Retour au Menu\n");
 					printf("1) Afficher les adhérents par Nom\n");
@@ -479,7 +493,9 @@ int main(void){
 
 				case '2' :
 					couleur("36");
+					couleur("1");
 					printf("\t\\\\ Emprunts //\n");
+					couleur("0");
 					couleur("0");
 					printf("0) Retour au Menu\n");
 					printf("1) Afficher les emprunts par Nom\n");
@@ -520,7 +536,9 @@ int main(void){
 		
 				case '3' :
 					couleur("36");
+					couleur("1");
 					printf("\t\\\\ Après-midi Thématiques //\n");
+					couleur("0");
 					couleur("0");
 					printf("0) Retour au Menu\n");
 					printf("1) Afficher les aprem par Date\n");
@@ -563,7 +581,9 @@ int main(void){
 	
 				case '4' :
 					couleur("36");
+					couleur("1");
 					printf("\t\\\\ Adhérents à des après-midi thématiques //\n");
+					couleur("0");
 					couleur("0");
 					printf("0) Retour au Menu\n");
 					printf("1) Afficher les aprem par Date\n");
@@ -621,7 +641,9 @@ int main(void){
 	
 				case '5' :
 					couleur("36");
+					couleur("1");
 					printf("\t\\\\ Jeux //\n");
+					couleur("0");
 					couleur("0");
 					printf("0) Retour au Menu\n");
 					printf("1) Afficher les jeux par Nom\n");
@@ -663,7 +685,9 @@ int main(void){
 	
 		if (choix == '7'){
 			couleur("36");
+			couleur("1");
 			printf("\t\\\\ Recherche //\n");
+			couleur("0");
 			couleur("0");
 			printf("0) Retour au Menu\n");
 			printf("1) Adhérents\n");
@@ -730,17 +754,18 @@ int main(void){
 			clrscr();
 			affichGrandMenu();
 		}
-			triInsertionAdh(tAdh, nbAdh);
-			triSelectEmp(tEmp, nbEmpT, '1');
-			bulleApremD(tAprem, nbAprem);
-			bulleAdhApremD(tAdhAprem, nbAdhAprem);
-			j = triJeux(j, nbJeux, '1');
-			save(tAdh, tEmp, tAprem, tAdhAprem, j, nbAdh, nbEmpT, nbAprem, nbAdhAprem, nbJeux);
-			couleur("33");
-			printf("\nMenu : Que voulez vous faire ? (tapez un chiffre) ");
-			couleur("0");
-			choix = saisirChoix();
-			printf("\n");
+
+		triInsertionAdh(tAdh, nbAdh);
+		triSelectEmp(tEmp, nbEmpT, '1');
+		bulleApremD(tAprem, nbAprem);
+		bulleAdhApremD(tAdhAprem, nbAdhAprem);
+		j = triJeux(j, nbJeux, '1');
+		save(tAdh, tEmp, tAprem, tAdhAprem, j, nbAdh, nbEmpT, nbAprem, nbAdhAprem, nbJeux);
+		couleur("33");
+		printf("\nMenu : Que voulez vous faire ? (tapez un chiffre) ");
+		couleur("0");
+		choix = saisirChoix();
+		printf("\n");
 	}
 	if (choix == '9')
 		save(tAdh, tEmp, tAprem, tAdhAprem, j, nbAdh, nbEmpT, nbAprem, nbAdhAprem, nbJeux);
@@ -751,7 +776,7 @@ int main(void){
 	free(tEmp);
 	free(tAprem);
 	free(tAdhAprem);
-	free(j);
+	j = supprListeJeux(j);
 	
 	return 0; 
 }
