@@ -68,8 +68,7 @@ void modifAdh(Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmp, AdhAprem * 
 void modifAprem(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int nbAdhAprem, char choix);
 ListeJ modifJeu(ListeJ j, Emprunt * tEmp, int nbEmp, char choix, char * nomJ);
 // Tri
-void triInsertionAdh(Adherent * tAdh, int nbAdh);
-int rechPosDichoAN(Adherent  * tAdh, int nbAdh, Adherent adh);
+void bulleAdhN(Adherent  * tAdh, int nbAdh);
 void bulleAdhP(Adherent  * tAdh, int nbAdh);
 void bulleAdhD(Adherent  * tAdh, int nbAdh);
 void bulleAdhnbE(Adherent  * tAdh, int nbAdh);

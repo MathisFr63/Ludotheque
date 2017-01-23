@@ -1421,59 +1421,30 @@ ListeJ modifJeu(ListeJ j, Emprunt * tEmp, int nbEmp, char choix, char * nomJ){
 	return j;
 }
 
-/* Nom : triInsertionAdh
-Finalité : tri un tableau d'Adherent par nom d'Adherent
+
+/* Nom : bulleAdhN
+Finalité : Tri d'un tableau d'Adherent par leur prénom
 Paramètres entrant: nbAdh, nombre total d'Adherent
 Paramètres entrant-sortant: tAdh, tableau d'Adherent
 Valeur retourné: Aucune
-Variables : pos, position d'insertion de l'Adherent à replacer dans le tableau d'Adherent afin qu'il soit trié
-adh, Adherent temporaire pemettant d'interchanger deux Adherent et ainsi de trier le tableau
-i, compteur
-j, compteur
+Variables : i, compteur
+tmp, Adherent temporaire permettant l'insertion des Adherent triés au bon endroit dans le tableau
 */
-void triInsertionAdh(Adherent * tAdh, int nbAdh){
-	int pos, i, j;
-	Adherent adh;
+void bulleAdhN(Adherent  * tAdh, int nbAdh){
+		int i;
+		Adherent tmp;
 
-	for (i = 0; i < nbAdh; i++){
-		pos = rechPosDichoAN(tAdh, nbAdh, tAdh[i]);
-		if (pos != i){
-			adh = tAdh[i];
-			for (j = i; j > pos; j--){
-				tAdh[j] = tAdh[j-1];
+		if (nbAdh <= 1)
+			return;
+
+		for (i = 0; i < nbAdh - 1; i++){
+			if (strcasecmp(tAdh[i].nom, tAdh[i+1].nom) > 0 || strcasecmp(tAdh[i].nom, tAdh[i+1].nom) == 0 && strcasecmp(tAdh[i].prenom, tAdh[i+1].prenom) > 0){
+				tmp = tAdh[i];
+				tAdh[i] = tAdh[i+1];
+				tAdh[i+1] = tmp;
 			}
-			tAdh[j] = adh;
 		}
-	}
-}
-
-/* Nom : rechPosDichoAN
-Finalité : recherche de la position d'insertion d'un Adherent dans un tableau d'Adherent trié
-Paramètres entrant: nbAdh, nombre total d'Adherent
-adh, Adherent dont on veut connaître la position d'insertion
-Paramètres entrant-sortant: tAdh, tableau d'Adherent
-Valeur retourné: deb ou m, position d'insertion de l'Adherent dans le tableau d'Adherent
-Variables : deb, valeur de la position de début du tableau étant égal à 0 au début de la fonction et permettant la recherche dichotomique
-fin, valeur de la position de fin du tableau étant égal au nombre total d'Adherent au début de la fonction et permettant la recherche dichotomique
-m, valeur de la position au centre du tableau
-comp, valeur de la comparaison entre le nom de l'Adherent dont on veut connaître la position et le nom de l'Adherent dont la position est au centre du tableau
-*/
-int rechPosDichoAN(Adherent  * tAdh, int nbAdh, Adherent adh){
-	int deb = 0, fin = nbAdh -1, m, comp;
-
-	while (deb <= fin){
-		m = (deb + fin) / 2;
-		comp = strcasecmp(adh.nom, tAdh[m].nom);
-		if (comp == 0)
-			comp = strcasecmp(adh.prenom, tAdh[m].prenom);
-		if (comp == 0)
-			return m;
-		if (comp < 0)
-			fin = m-1;
-		else
-			deb = m+1;
-	}
-	return deb;
+		bulleAdhN(tAdh, nbAdh-1);
 }
 
 /* Nom : bulleAdhP
@@ -2568,8 +2539,6 @@ Variables : tmp, pointeur sur Cellule dont on veut libérer la mémoire
 */
 ListeJ supprListeJeux(ListeJ j){
 	Cellule * tmp = j;
-
-	printf("jeu : %s | ", j->nom);
 
 	if (j == NULL)
 		return NULL;

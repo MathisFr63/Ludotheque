@@ -78,7 +78,7 @@ int main(void){
 					break;
 	
 				case '2' :
-					triInsertionAdh(tAdh, nbAdh);
+					bulleAdhN(tAdh, nbAdh);
 					couleur("32");
 					printf("Adhérents : ");
 					couleur("0");
@@ -91,7 +91,7 @@ int main(void){
 				case '3' :
 				case '4' :
 				case '5' :
-					triInsertionAdh(tAdh, nbAdh);
+					bulleAdhN(tAdh, nbAdh);
 					couleur("32");
 					printf("Adhérents : ");
 					couleur("0");
@@ -132,7 +132,7 @@ int main(void){
 					break;
 		
 				case '1' :
-					triInsertionAdh(tAdh, nbAdh);
+					bulleAdhN(tAdh, nbAdh);
 					j = triJeux(j, nbJeux, '1');
 					couleur("32");
 					printf("Adhérents : ");
@@ -154,7 +154,7 @@ int main(void){
 					
 	
 				case '2' :
-					triInsertionAdh(tAdh, nbAdh);
+					bulleAdhN(tAdh, nbAdh);
 					j = triJeux(j, nbJeux, '1');
 					couleur("32");
 					printf("Adhérents : ");
@@ -273,7 +273,7 @@ int main(void){
 
 				case '1' :
 					bulleApremD(tAprem, nbAprem);
-					triInsertionAdh(tAdh, nbAdh);
+					bulleAdhN(tAdh, nbAdh);
 					couleur("32");
 					printf("Aprem : ");
 					couleur("0");
@@ -441,7 +441,7 @@ int main(void){
 							break;
 	
 						case '1' :
-							triInsertionAdh(tAdh, nbAdh);
+							bulleAdhN(tAdh, nbAdh);
 							couleur("34");
 							printf("\nNom\t\tPrénom\t\tInscription\tTel\t\tVille\t\t\tEmprunts\n");
 							printf("¯¯¯\t\t¯¯¯¯¯¯\t\t¯¯¯¯¯¯¯¯¯¯¯\t¯¯¯\t\t¯¯¯¯¯\t\t\t¯¯¯¯¯¯¯¯\n");
@@ -481,7 +481,7 @@ int main(void){
 			 				break;
 		
 						case '5' :
-							triInsertionAdh(tAdh, nbAdh);
+							bulleAdhN(tAdh, nbAdh);
 							for (i = 0; i< nbEmpT; i++){
 								retard = verifDateEmprunt(tEmp[i]);
 								if (retard == -1)
@@ -713,7 +713,7 @@ int main(void){
 					break;
 
 				case '1' :
-					triInsertionAdh(tAdh, nbAdh);
+					bulleAdhN(tAdh, nbAdh);
 					couleur("33");
 					printf("Adhérents : ");
 					couleur("0");
@@ -755,7 +755,7 @@ int main(void){
 			affichGrandMenu();
 		}
 
-		triInsertionAdh(tAdh, nbAdh);
+		bulleAdhN(tAdh, nbAdh);
 		triSelectEmp(tEmp, nbEmpT, '1');
 		bulleApremD(tAprem, nbAprem);
 		bulleAdhApremD(tAdhAprem, nbAdhAprem);
