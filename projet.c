@@ -10,6 +10,7 @@ date : 19/12/2016
 finalité: Gestion d'une ludothèque
 */
 
+
 /* Nom : choix
 Finalité : lit et retourne le choix de l'utilisateur tout en effaçant les erreurs du flux
 Paramètres entrant: Aucun
@@ -35,122 +36,6 @@ char saisirChoix(void){
 				choix = '!';
 	}
 	return choix;
-}
-
-/* Nom : jVide
-Finalité : retourne une liste vide
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: Aucun
-Valeur retourné: NULL
-Variables : Aucune
-*/
-ListeJ jVide(void){
-	return NULL;
-}
-
-/* Nom : lireEmp
-Finalité : lit un emprunt grâce au fichier dans lequel sont stockés tout les emprunts
-et stock les données dans un type Emprunt contenant le nom et le prénom de l'ahérent empruntant,
-le nom du jeu emprunter, la date d'empunt, et la date de retour (sachant que la date de retour est "" si l'emprunt n'a pas était retourné)
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: fe, flot contenant les emprunts
-Valeur retourné: emp, Emprunt dans lequel ont été stockées les données
-Variables : emp, Emprunt dans lequel ont été stockées les données
-*/
-Emprunt lireEmp(FILE *fe){
-	Emprunt emp;
-
-	fgets (emp.nom,21,fe);
-	if (emp.nom[strlen(emp.nom)-1] == '\n')
-		emp.nom[strlen(emp.nom)-1] = '\0';
-
-	fgets (emp.prenom,21,fe);
-	if (emp.prenom[strlen(emp.prenom)-1] == '\n')
-		emp.prenom[strlen(emp.prenom)-1] = '\0';
-
-	fgets (emp.jeux,21,fe);
-	if (emp.jeux[strlen(emp.jeux)-1] == '\n')
-		emp.jeux[strlen(emp.jeux)-1] = '\0';
-
-	fgets (emp.dateE,12,fe);
-	if (emp.dateE[strlen(emp.dateE)-1] == '\n')
-		emp.dateE[strlen(emp.dateE)-1] = '\0';
-
-	fgets (emp.dateR,12,fe);
-	if (emp.dateR[strlen(emp.dateR)-1] == '\n')
-		emp.dateR[strlen(emp.dateR)-1] = '\0';
-
-	return emp;
-}
-
-/* Nom : chargeTEmprunts 
-Finalité : charge un par un les Emprunt stockés dans un fichier prévu à cet effet,
-et les stocks dans un tableau d'Emprunt grâce à l'appel de la fonction lireEmp
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les emprunts
-nbEmp, nombre d'Emprunts au total étant stocké en tête du fichier
-Valeur retourné: tEmp, tableau d'Emprunt
-Variables : tEmp, tableau d'Emprunt
-i, compteur permettant l'insertion des Emprunt au bon endroit dans le tableau
-fe, flot contenant les Emprunts
-*/
-Emprunt *chargeTEmprunts(char * nomFichier, int * nbEmp){
-	FILE * fe = fopen(nomFichier, "r");
-	Emprunt * tEmp;
-	int i;
-	
-	if (fe == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier\n");
-		couleur("0");
-		return;
-	}
-
-	fscanf (fe,"%d%*c",nbEmp);
-
-	tEmp = (Emprunt *)malloc(*nbEmp * sizeof(Emprunt));
-	if (tEmp == NULL){
-		couleur("31");
-		printf("Problème d'allocations mémoire\n");
-		couleur("0");
-		exit (1);
-	}
-
-	for(i = 0 ; i < *nbEmp; i++)
-		tEmp[i]=lireEmp(fe);
-
-	fclose(fe);
-	return tEmp;
-}
-
-/* Nom : afficheEmp
-Finalité : affiche un Emprunt (nom, prénom, jeu, date d'emprunt, date de retour (ou "non rendu"))
-Paramètres entrant: emp, Emprunt à afficher
-Paramètres entrant-sortant: Aucun
-Valeur retourné: Aucune
-Variables : Aucune
-*/
-void afficheEmp(Emprunt emp){
-
-	if (strlen(emp.nom) > 7)
-		printf("%s\t", emp.nom);
-	else
-		printf("%s\t\t", emp.nom);
-
-	if (strlen(emp.prenom) > 7)
-		printf("%s\t", emp.prenom);
-	else
-		printf("%s\t\t", emp.prenom);
-
-	if (strlen(emp.jeux) > 7)
-		printf("%s\t", emp.jeux);
-	else
-		printf("%s\t\t", emp.jeux);
-
-	if (strcmp(emp.dateR,"") == 0)
-		printf("%s\tNon rendu\n", emp.dateE);
-	else
-		printf("%s\t%s\n", emp.dateE, emp.dateR);
 }
 
 /* Nom : lireAdherent
@@ -189,6 +74,98 @@ Adherent lireAdherent(FILE *fe){
 
 
 	return adh;
+}
+
+/* Nom : lireEmp
+Finalité : lit un emprunt grâce au fichier dans lequel sont stockés tout les emprunts
+et stock les données dans un type Emprunt contenant le nom et le prénom de l'ahérent empruntant,
+le nom du jeu emprunter, la date d'empunt, et la date de retour (sachant que la date de retour est "" si l'emprunt n'a pas était retourné)
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: fe, flot contenant les emprunts
+Valeur retourné: emp, Emprunt dans lequel ont été stockées les données
+Variables : emp, Emprunt dans lequel ont été stockées les données
+*/
+Emprunt lireEmp(FILE *fe){
+	Emprunt emp;
+
+	fgets (emp.nom,21,fe);
+	if (emp.nom[strlen(emp.nom)-1] == '\n')
+		emp.nom[strlen(emp.nom)-1] = '\0';
+
+	fgets (emp.prenom,21,fe);
+	if (emp.prenom[strlen(emp.prenom)-1] == '\n')
+		emp.prenom[strlen(emp.prenom)-1] = '\0';
+
+	fgets (emp.jeux,21,fe);
+	if (emp.jeux[strlen(emp.jeux)-1] == '\n')
+		emp.jeux[strlen(emp.jeux)-1] = '\0';
+
+	fgets (emp.dateE,12,fe);
+	if (emp.dateE[strlen(emp.dateE)-1] == '\n')
+		emp.dateE[strlen(emp.dateE)-1] = '\0';
+
+	fgets (emp.dateR,12,fe);
+	if (emp.dateR[strlen(emp.dateR)-1] == '\n')
+		emp.dateR[strlen(emp.dateR)-1] = '\0';
+
+	return emp;
+}
+
+/* Nom : lireAprem
+Finalité : lit un Aprem grâce au fichier dans lequel sont stockés tout les après-midi thématiques
+et stock les données dans un type Aprem contenant la date, l'heure, le nombre de places, et le nombre de places libres de chaque Aprem
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: fe, flot contenant les après-midi thématiques
+Valeur retourné: ap, Aprem dans lequel ont été stockées les données
+Variables : ap, Aprem dans lequel ont été stockées les données
+*/
+Aprem lireAprem(FILE *fe){
+	Aprem ap;
+	fscanf(fe,"%s %s %d %d%*c", ap.date, ap.heure, &ap.places, &ap.placesL);
+
+	return ap;
+}
+
+/* Nom : lireAdhAprem
+Finalité : lit un AdhAprem (adhérent à un après-midi thématique) grâce au fichier dans lequel sont stockés tout les adhérents aux après-midi thématiques
+et stock les données dans un type AdhAprem contenant la date et l'heure de l'après-midi thématique, et le nom et le prénom de l'adhérent
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: fe, flot contenant les adhérents aux après-midi thématiques
+Valeur retourné: aap, AdhAprem dans lequel ont été stockées les données
+Variables : aap, AdhAprem dans lequel ont été stockées les données
+*/
+AdhAprem lireAdhAprem(FILE *fe){
+	AdhAprem aap;
+
+	fscanf(fe,"%s %s%*c", aap.date, aap.heure);
+	fgets(aap.nom,21,fe);
+	if (aap.nom[strlen(aap.nom)-1] == '\n')
+		aap.nom[strlen(aap.nom)-1] = '\0';
+	fgets(aap.prenom,21,fe);
+	if (aap.prenom[strlen(aap.prenom)-1] == '\n')
+		aap.prenom[strlen(aap.prenom)-1] = '\0';
+
+	return aap;
+}
+
+/* Nom : lireJeux
+Finalité : lit un Jeux grâce au fichier dans lequel sont stockés tout les jeux
+et stock les données dans une liste de jeux contenant le nom, le nombre d'exemplaires, le stock restant et le type du jeu
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: fe, flot contenant les jeux
+Valeur retourné: jeu, liste de jeux dans laquelle ont été stockées les données
+Variables : jeu, liste de jeux dans laquelle ont été stockées les données
+*/
+ListeJ lireJeux(FILE *fe){
+	ListeJ jeu;
+
+	fread(jeu->nom, 30, 1, fe);
+	fread(&jeu->nbEx, 4, 1, fe);
+	jeu->stock = jeu->nbEx;
+	fread(jeu->type, 30, 1, fe);
+
+
+	return jeu;
 }
 
 /* Nom : chargeTAdherent 
@@ -231,72 +208,192 @@ Adherent *chargeTAdherent(char *nomFichier, int * nbAdh){
 	return tAdh;
 }
 
-/* Nom : afficheAdh
-Finalité : affiche un Adherent (nom, prénom, jeu, date d'emprunt, date de retour (ou "non rendu"))
-Paramètres entrant: adh, Adherent à afficher
-choix, choix de l'affichage
-Paramètres entrant-sortant: Aucun
-Valeur retourné: Aucune
-Variables : Aucune
+/* Nom : chargeTEmprunts 
+Finalité : charge un par un les Emprunt stockés dans un fichier prévu à cet effet,
+et les stocks dans un tableau d'Emprunt grâce à l'appel de la fonction lireEmp
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les emprunts
+nbEmp, nombre d'Emprunts au total étant stocké en tête du fichier
+Valeur retourné: tEmp, tableau d'Emprunt
+Variables : tEmp, tableau d'Emprunt
+i, compteur permettant l'insertion des Emprunt au bon endroit dans le tableau
+fe, flot contenant les Emprunts
 */
-void afficheAdh(Adherent adh, char choix){
-	if (choix == '1' || choix == '4'){
-		if (strlen(adh.nom) > 7)
-			printf("%s\t", adh.nom);
-		else
-			printf("%s\t\t", adh.nom);
-
-		if (strlen(adh.prenom) > 7)
-			printf("%s\t%s\t%s\t", adh.prenom, adh.date, adh.tel);
-		else
-			printf("%s\t\t%s\t%s\t", adh.prenom, adh.date, adh.tel);
-
-		if (strlen(adh.ville) > 14)
-			printf("%s\t%d\n", adh.ville, adh.nbEmp);
-		else if (strlen(adh.ville) > 7 )
-			printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
-		else
-			printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
+Emprunt *chargeTEmprunts(char * nomFichier, int * nbEmp){
+	FILE * fe = fopen(nomFichier, "r");
+	Emprunt * tEmp;
+	int i;
+	
+	if (fe == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier\n");
+		couleur("0");
+		return;
 	}
 
-	else if (choix == '2'){
-		if (strlen(adh.prenom) > 7)
-			printf("%s\t", adh.prenom);
-		else
-			printf("%s\t\t", adh.prenom);
+	fscanf (fe,"%d%*c",nbEmp);
 
-		if (strlen(adh.nom) > 7)
-			printf("%s\t%s\t%s\t", adh.nom, adh.date, adh.tel);
-		else
-			printf("%s\t\t%s\t%s\t", adh.nom, adh.date, adh.tel);
-		
-		if (strlen(adh.ville) > 14)
-			printf("%s\t%d\n", adh.ville, adh.nbEmp);
-		else if (strlen(adh.ville) > 7 )
-			printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
-		else
-			printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
+	tEmp = (Emprunt *)malloc(*nbEmp * sizeof(Emprunt));
+	if (tEmp == NULL){
+		couleur("31");
+		printf("Problème d'allocations mémoire\n");
+		couleur("0");
+		exit (1);
 	}
 
-	else if (choix == '3'){
-		if (strlen(adh.nom) > 7)
-			printf("%s\t%s\t", adh.date, adh.nom);
-		else
-			printf("%s\t%s\t\t", adh.date, adh.nom);
-		
-		if (strlen(adh.prenom) > 7)
-			printf("%s\t%s\t", adh.prenom, adh.tel);
-		else
-			printf("%s\t\t%s\t", adh.prenom, adh.tel);
-		
-		if (strlen(adh.ville) > 14)
-			printf("%s\t%d\n", adh.ville, adh.nbEmp);
-		else if (strlen(adh.ville) > 7 )
-			printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
-		else
-			printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
-	}
+	for(i = 0 ; i < *nbEmp; i++)
+		tEmp[i]=lireEmp(fe);
+
+	fclose(fe);
+	return tEmp;
 }
+
+/* Nom : chargeAprem
+Finalité : charge un par un les Aprem stockés dans un fichier prévu à cet effet,
+et les stocks dans un tableau d'Aprem grâce à l'appel de la fonction lireAprem
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les Aprem
+nbAprem, nombre d'Aprem au total étant stocké en tête du fichier
+Valeur retourné: tAprem, tableau d'Aprem
+Variables : tAprem, tableau d'Aprem
+i, compteur permettant l'insertion des Aprem au bon endroit dans le tableau
+fe, flot contenant les Aprem
+*/
+Aprem *chargeAprem(char *nomFichier, int * nbAprem){
+	FILE *fe = fopen(nomFichier,"r");
+	Aprem * tAprem;
+	int i;
+	
+	if (fe == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier\n");
+		couleur("0");
+		return;
+	}
+
+	fscanf(fe,"%d%*c",nbAprem);
+
+	tAprem = (Aprem *)malloc(*nbAprem * sizeof(Aprem));
+	if (tAprem == NULL){
+		couleur("31");
+		printf("Problème d'allocations mémoire\n");
+		couleur("0");
+		return;
+	}
+
+	for (i = 0 ; i < *nbAprem; i++){
+		tAprem[i]=lireAprem(fe);
+	}
+
+	fclose(fe);
+	return tAprem;
+}
+
+/* Nom : chargeAdhAprem
+Finalité : charge un par un les AdhAprem stockés dans un fichier prévu à cet effet,
+et les stocks dans un tableau d'AdhAprem grâce à l'appel de la fonction lireAdhAprem
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les AdhAprem
+nbAdhAprem, nombre d'AdhAprem au total étant stocké en tête du fichier
+Valeur retourné: tAdhAprem, tableau d'AdhAprem
+Variables : tAdhAprem, tableau d'AdhAprem
+i, compteur permettant l'insertion des AdhAprem au bon endroit dans le tableau
+fe, flot contenant les AdhAprem
+*/
+AdhAprem *chargeAdhAprem(char *nomFichier, int * nbAdhAprem){
+	AdhAprem * tAdhAprem;
+	int i;
+	FILE *fe = fopen(nomFichier,"r");
+	
+	if (fe == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier\n");
+		couleur("0");
+		return;
+	}
+
+	fscanf(fe,"%d%*c",nbAdhAprem);
+
+	tAdhAprem = (AdhAprem *)malloc(*nbAdhAprem * sizeof(AdhAprem));
+	if (tAdhAprem == NULL){
+		couleur("31");
+		printf("Problème d'allocations mémoire\n");
+		couleur("0");
+		return;
+	}
+
+	for (i = 0 ; i < *nbAdhAprem; i++){
+		tAdhAprem[i]=lireAdhAprem(fe);
+	}
+
+	fclose(fe);
+	return tAdhAprem;
+}
+
+/* Nom : chargeJeux
+Finalité : charge un par un les jeux stockés dans un fichier prévu à cet effet,
+et les stocks dans une liste de jeux grâce à l'appel de la fonction lireJeux
+Paramètres entrant: nbEmp, nombre total d'Emprunt
+Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les jeux
+nbJeux, nombre de jeux au total étant stocké en tête du fichier
+tEmp, tableau d'Emprunt
+Valeur retourné: jeux, liste de jeux
+Variables : jeux, liste de jeux
+fe, flot contenant les jeux
+i, compteur permettant l'insertion des jeux un par un en tête de liste
+j, compteur permettant la mise à jour du stock de chaque jeux
+*/
+ListeJ chargeJeux(char * nomFichier, int * nbJeux, Emprunt * tEmp, int nbEmp){
+	FILE *fe = fopen(nomFichier,"rb");
+	ListeJ jeux;
+	int i, j;
+	
+	if(fe == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier\n");
+		couleur("0");
+		return;
+	}
+
+	fscanf(fe,"%d%*c",nbJeux);
+
+	for (i = 0; i < *nbJeux; i++){
+		jeux = insererEnTete(jeux);
+		jeux = lireJeux(fe);
+		for(j = 0 ; j < nbEmp; j++){
+			if (strcasecmp(tEmp[j].jeux, jeux->nom) == 0 && strcmp(tEmp[j].dateR, "") == 0){
+				jeux->stock--;
+			}
+		}
+	}
+
+	fclose(fe);
+	return jeux;
+}
+
+/* Nom : insererEnTete
+Finalité : insertion d'un jeux (Cellule) en tête de liste
+Paramètres entrant: j, liste de jeux
+Paramètres entrant-sortant: Aucun
+Valeur retourné: tmp, pointeur sur Cellule (liste de jeux) allouée et pointant avec son pointeur "suivant" sur la liste j
+Variables : tmp, pointeur sur Cellule (liste de jeux) allouée et pointant avec son pointeur "suivant" sur la liste j
+*/
+ListeJ insererEnTete(ListeJ j){
+	Cellule * tmp;
+
+	tmp = (Cellule*)malloc(sizeof(Cellule));
+		if (tmp == NULL){
+			couleur("31");
+			printf("Prblème lors de l'allocation mémoire\n");
+			couleur("0");
+			exit(1);
+		}
+	
+	tmp->suiv = j;
+
+	return tmp;
+}
+
 
 /* Nom : newAdherent
 Finalité : Ajoute un Adherent dans le tableau d'Adherent et modifie le nombre total d'Adherent
@@ -380,6 +477,338 @@ Adherent * newAdherent(Adherent *tAdh, int *nbAdh){
 	return newAdh;
 }
 
+/* Nom : newEmprunt
+Finalité : Enregistrer un nouvel Emprunt dans un tableau d'Emprunt
+Paramètres entrant: nbAdh, nombre total d'Adherent
+j, liste de Jeux
+Paramètres entrant-sortant: tEmp, tableau d'Emprunt
+nbEmp, nombre total d'Emprunt
+tAdh, tableau d'Adherent
+Valeur retourné: newEmp, nouveau tableau d'Emprunt après réallocation si l'Adherent a moins de 3 emprunts en cours,
+que le Jeux et l'Adherent ont été trouvé et que le Jeux est encore en stock
+Variables : newEmp, nouveau tableau d'Emprunt
+date, date d'Emprunt
+nom, nom de l'Adherent voulant emprunté
+prenom, prénom de l'Adherent
+jeu, nom du jeu voulant être emprunté
+trouveAdh, position de l'Adherent dans un tableau d'Adherent
+trouveJeu, position du Jeux dans une liste de Jeux
+i, compteur
+fe, flot dans lequel est écrit la date du jour, qui est ensuite lue afin de remplir automatiquement la date d'Emprunt
+*/
+Emprunt * newEmprunt(Emprunt *tEmp, int *nbEmp, Adherent * tAdh, int nbAdh, ListeJ j){
+	FILE * fe = fopen("date.txt", "r");
+	Emprunt *newEmp;
+	int trouveAdh, trouveJeu, i;
+	char date[11], nom[20], prenom[20], jeu[30];
+	
+	if (fe == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier\n");
+		couleur("0");
+		return;
+	}
+
+	newEmp = (Emprunt *) realloc (tEmp,(*nbEmp+1) * sizeof(Emprunt));
+	if (newEmp == NULL){
+		couleur("31");
+		printf("Erreur lors de l'allocation mémoire\n");
+		couleur("0");
+		exit(1);
+	}
+
+	couleur("33");
+	printf("Nom : ");
+	couleur("0");
+	fgets(nom,21,stdin);
+	if (nom[strlen(nom)-1] == '\n')
+		nom[strlen(nom)-1] = '\0';
+
+	couleur("33");
+	printf("Prénom : ");
+	couleur("0");
+	fgets(prenom,21,stdin);
+	if (prenom[strlen(prenom)-1] == '\n')
+		prenom[strlen(prenom)-1] = '\0';
+
+	trouveAdh = rechAdherent(tAdh, nbAdh, nom, prenom);
+	if (trouveAdh == -1){
+		couleur("31");
+		printf("\nL'adhérent %s %s n'a pas été trouvé\n", nom, prenom);
+		couleur("0");
+		return tEmp;
+	}
+
+	if (tAdh[trouveAdh].nbEmp == 3){
+		couleur("31");
+		printf("\nL'adhérent : %s %s a déjà 3 emprunts non rendus il doit rendre un jeu avant de pouvoir emprunter à nouveau\n", tAdh[trouveAdh].nom, tAdh[trouveAdh].prenom);
+		couleur("0");
+		return tEmp;
+	}
+
+	couleur("33");
+	printf("Jeux : ");
+	couleur("0");
+	fgets(jeu,21,stdin);
+	if (jeu[strlen(jeu)-1] == '\n')
+		jeu[strlen(jeu)-1] = '\0';
+
+	trouveJeu = rechJeux(j, jeu);
+	if (trouveJeu == -1){
+		couleur("31");
+		printf("\nLe jeu %s n'a pas été trouvé\n", jeu);
+		couleur("0");
+		return tEmp;
+	}
+
+	for (i = 0; i < trouveJeu; i++)
+		j = j->suiv;
+	
+	if (j->stock == 0){
+		couleur("31");
+		printf("\nLe jeu \"%s\" n'est plus en stock. Revenez plus tard\n", j->nom);
+		couleur("0");
+		return tEmp;
+	}
+
+	strcpy(newEmp[*nbEmp].nom, tAdh[trouveAdh].nom);
+	strcpy(newEmp[*nbEmp].prenom, tAdh[trouveAdh].prenom);
+	strcpy(newEmp[*nbEmp].jeux, j->nom);
+	
+	system("date +%Y-%m-%d>date.txt");
+	fgets(newEmp[*nbEmp].dateE,12,fe);
+	if (newEmp[*nbEmp].dateE[strlen(newEmp[*nbEmp].dateE)-1] == '\n')
+		newEmp[*nbEmp].dateE[strlen(newEmp[*nbEmp].dateE)-1] = '\0';
+	strcpy(newEmp[*nbEmp].dateR,"");
+
+	tAdh[trouveAdh].nbEmp++;
+	j->stock--;
+
+	(*nbEmp)++;
+	fclose(fe);
+	return newEmp;
+}
+
+/* Nom : newAprem
+Finalité : Ajoute un Aprem dans le tableau d'Aprem et modifie le nombre total d'Aprem
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: tAprem, tableau d'Aprem
+nbAprem, nombre total d'Aprem
+Valeur retourné: newAprem, tableau d'Aprem après modification (ou tAprem si l'Aprem existe déjà et qu'il n'y a aucune modification à faire)
+Variables : newAprem, tableau d'Aprem après modification (ou tAprem si l'Aprem existe déjà et qu'il n'y a aucune modification à faire)
+trouve, position de l'Aprem dans le tableau d'Aprem ou -1 si l'Aprem n'a pas été trouvée
+date, date de l'Aprem à créer
+heure, heure de l'Aprem à créer
+*/
+Aprem * newAprem(Aprem * tAprem, int * nbAprem){  // L'APREM NE DOIT PAS DEJA EXISTER
+	Aprem *newAprem;
+	int trouve;
+	char date[11], heure[5];
+
+	newAprem = (Aprem *) realloc (tAprem,(*nbAprem+1) * sizeof(Aprem));
+	if(newAprem == NULL){
+		couleur("31");
+		printf("Erreur lors de l'allocation mémoire\n");
+		couleur("0");
+		exit(1);
+	}
+
+	couleur("33");
+	printf("Date (AAAA-MM-JJ) : ");
+	couleur("0");
+	fscanf(stdin,"%s", date);
+	
+	couleur("33");
+	printf("Heure (HH:MM) : ");
+	couleur("0");
+	fscanf(stdin,"%s", heure);
+
+	
+	trouve = rechAprem(newAprem, *nbAprem, date, heure);
+	if (trouve != -1){
+		couleur("31");
+		printf("\nL'après-midi thématique du %s à %s existe déjà\n", date, heure);
+		couleur("0");
+		return tAprem;
+	}
+
+	strcpy(newAprem[*nbAprem].date, date);
+	strcpy(newAprem[*nbAprem].heure, heure);
+	
+	couleur("33");
+	printf("Places : ");
+	couleur("0");
+	fscanf(stdin,"%d", &newAprem[*nbAprem].places);
+	newAprem[*nbAprem].placesL = newAprem[*nbAprem].places;
+
+	(*nbAprem)++;
+	return newAprem;
+}
+
+/* Nom : newAdhAprem
+Finalité : Ajoute un AdhAprem dans le tableau d'AdhAprem et modifie le nombre total d'AdhAprem
+Paramètres entrant: nbAdh, nombre total d'Adherent
+nbAprem, nombre total d'Aprem
+Paramètres entrant-sortant: tAdhAprem, tableau d'AdhAprem
+tAdh, tableau d'Adherent
+tAprem, tableau d'Aprem
+nbAdhAprem, nombre total d'AdhAprem
+Valeur retourné: newAdhAprem, tableau d'AdhAprem après modification (ou tAdhAprem si l'Aprem ou l'Adherent n'ont pas été trouvés ou si l'Adherent est déjà inscrit ou si il n'y a plus de places libres)
+Variables : newAdhAprem, tableau d'AdhAprem après modification (ou tAdhAprem si l'Aprem ou l'Adherent n'ont pas été trouvés ou si l'Adherent est déjà inscrit ou si il n'y a plus de places libres)
+date, date de l'Aprem recherchée
+heure, heure de l'Aprem recherchée
+nom, nom de l'Adherent à inscrire pour cet Aprem
+prenom, prénom de l'Adherent
+trouveAdh, position de l'Adherent dans le tableau d'Adherent
+trouveAprem, position de l'Aprem dans le tableau d'Aprem
+trouveAdhAprem, position de l'AdhAprem dans le tableau d'AdhAprem
+*/
+AdhAprem * newAdhAprem(AdhAprem * tAdhAprem, int * nbAdhAprem, Adherent * tAdh, int nbAdh, Aprem * tAprem, int nbAprem){
+	AdhAprem *newAdhAprem;
+	char date[11], heure[5], nom[20], prenom[20];
+	int trouveAdh, trouveAprem, trouveAdhAprem;
+
+	newAdhAprem = (AdhAprem *) realloc (tAdhAprem,(*nbAdhAprem+1) * sizeof(AdhAprem));
+	if(newAdhAprem == NULL){
+		couleur("31");
+		printf("Erreur lors de l'allocation mémoire\n");
+		couleur("0");
+		exit(1);
+	}
+
+	couleur("33");
+	printf("Date (AAAA-MM-JJ) : ");
+	couleur("0");
+	fscanf(stdin,"%s%*c", date);
+
+	if (rechNbAD(tAprem, nbAprem, date) > 1){
+		couleur("33");
+		printf("Heure (HH:MM) : ");
+		couleur("0");
+		fscanf(stdin,"%s%*c", heure);
+	}
+
+	else
+		strcpy(heure, " " );
+
+	trouveAprem = rechAprem(tAprem, nbAprem, date, heure);
+
+	if (trouveAprem == -1){
+		couleur("31");
+		printf("\nL'après-midi thématique du %s à %s est introuvable\n", date, heure);
+		couleur("0");
+		return tAdhAprem;
+	}
+	if (tAprem[trouveAprem].placesL == 0){
+		couleur("31");
+		printf("\nIl n'y a plus de places libres pour cet après-mid thématique\n");
+		couleur("0");
+		return tAdhAprem;
+	}
+
+	couleur("33");
+	printf("Nom : ");
+	couleur("0");
+	fgets(nom,21,stdin);
+	if (nom[strlen(nom)-1] == '\n')
+		nom[strlen(nom)-1] = '\0';
+	
+	couleur("33");
+	printf("Prénom : ");
+	couleur("0");
+	fgets(prenom,21,stdin);
+	if (prenom[strlen(prenom)-1] == '\n')
+		prenom[strlen(prenom)-1] = '\0';
+
+	trouveAdh = rechAdherent(tAdh, nbAdh, nom, prenom);
+
+	if (trouveAdh == -1){
+		couleur("31");
+		printf("\nL'adhérent : %s %s n'existe pas\n", nom, prenom);
+		couleur("0");
+		return tAdhAprem;
+	}
+
+	trouveAdhAprem = rechAdhAprem(newAdhAprem, *nbAdhAprem, date, heure, nom, prenom);
+	if (trouveAdhAprem != -1){
+		couleur("31");
+		printf("\nL'adhérent : %s %s est déjà inscrit à cet après-midi thématique\n", tAdhAprem[trouveAdhAprem].nom, tAdhAprem[trouveAdhAprem].prenom);
+		couleur("0");
+		return tAdhAprem;
+	}
+
+	strcpy(newAdhAprem[*nbAdhAprem].date, date);
+	strcpy(newAdhAprem[*nbAdhAprem].heure, tAprem[trouveAprem].heure);
+	strcpy(newAdhAprem[*nbAdhAprem].nom, tAdh[trouveAdh].nom);
+	strcpy(newAdhAprem[*nbAdhAprem].prenom, tAdh[trouveAdh].prenom);
+	tAprem[trouveAprem].placesL--;
+
+	(*nbAdhAprem)++;
+	return newAdhAprem;
+}
+
+/* Nom : newJeu
+Finalité : Ajoute un jeu dans la liste de jeux j et modifie le nombre total de jeux
+Paramètres entrant: j, liste de jeux
+Paramètres entrant-sortant: nbJeux, nombre total de jeux
+Valeur retourné: j, liste de jeux modifiée ou non selon le respect des contraintes (le jeu ne doit pas déjà exister)
+Variables : jeu, nom du nouveau jeu à enregistrer
+trouve, valeur de la recherche du nouveau jeu dans la liste de jeux (-1 si le jeu n'existe pas encore; un nombre positif sinon)
+*/
+ListeJ newJeu(ListeJ j,int * nbJeux){
+	int trouve;
+	char jeu[30];
+
+	couleur("33");
+	printf("Nom : ");
+	couleur("0");
+	fgets(jeu,30,stdin);
+	if (jeu[strlen(jeu)-1] == '\n')
+		jeu[strlen(jeu)-1] = '\0';
+	
+	trouve = rechJeux(j, jeu);
+	if (trouve != -1){
+		couleur("31");
+		printf("\nLe jeu : %s existe déjà\n", jeu);
+		couleur("0");
+		return j;
+	}
+
+	j = insererEnTete(j);
+
+	strcpy(j->nom, jeu);
+	
+	couleur("33");
+	printf("Exemplaires : ");
+	couleur("0");
+	fscanf(stdin,"%d%*c", &j->nbEx);
+	j->stock = j->nbEx;
+	
+	printf("1- Jeux de plateforme | 2- Jeux de cartes | 3- Jeux de construction | 4- Jeux de logique |\n");
+	
+	couleur("33");
+	printf("Type (tapez un chiffre ou le type souhaité) : ");
+	couleur("0");
+	fgets(j->type,21,stdin);
+	if (j->type[strlen(j->type)-1] == '\n')
+		j->type[strlen(j->type)-1] = '\0';
+
+	if (strcmp(j->type, "1") == 0)
+		strcpy(j->type, "Jeux de plateforme");
+	
+	else if (strcmp(j->type, "2") == 0)
+		strcpy(j->type, "Jeux de cartes");
+	
+	else if (strcmp(j->type, "3") == 0)
+		strcpy(j->type, "Jeux de construction");
+	
+	else if (strcmp(j->type, "4") == 0)
+		strcpy(j->type, "Jeux de logique");
+
+	(*nbJeux)++;
+	return j;
+}
+
 /* Nom : supprAdherent
 Finalité : supprime un Adherent du tableau d'Adherent lorsque celui-ci a été trouvé grâce à une recherche
 et modifie le nombre total d'Adherent
@@ -429,6 +858,269 @@ void supprAdherent(Adherent * tAdh, int * nbAdh){
 		tAdh[i] = tAdh[i+1];
 	
 	(*nbAdh)--;
+}
+
+/* Nom : rendreJeu
+Finalité : Permet à un Adherent de rendre un Jeux emprunter ultérieurement,
+modifie ainsi le nombre d'emprunts en cours de cet adhérent et la date de retour de l'Emprunt
+Paramètres entrant: nbAdh, nombre total d'Adherent
+nbEmp, nombre total d'Emprunt
+j, liste de Jeux
+Paramètres entrant-sortant: tAdh, tableau d'Adherent
+tEmp, tableau d'Emprunt
+Valeur retourné: Aucune
+Variables : nom, nom de l'Adherent voulant rendre/retourner un jeu
+prenom, prénom de l'Adherent
+jeu, nom du Jeux voulant être retourné
+trouve, position de l'Emprunt dans un tableau d'Emprunt ou -1 si celui si n'a pas été trouvé
+i, compteur
+fe, flot dans lequel est écrit la date du jour, qui est ensuite lue afin de remplir automatiquement la date de retour
+*/
+void rendreJeu(Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmp, ListeJ j){
+	FILE * fe = fopen("date.txt", "r");
+	int trouve, i;
+	char nom[20], prenom[20], jeu[30];
+
+	if (fe == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier\n");
+		couleur("0");
+		return;
+	}
+
+	couleur("33");
+	printf("Nom : ");
+	couleur("0");
+	fgets(nom,21,stdin);
+	if (nom[strlen(nom)-1] == '\n')
+		nom[strlen(nom)-1] = '\0';
+	
+	couleur("33");
+	printf("Prénom : ");
+	couleur("0");
+	fgets(prenom,21,stdin);
+	if (prenom[strlen(prenom)-1] == '\n')
+		prenom[strlen(prenom)-1] = '\0';
+	
+	couleur("33");
+	printf("Jeu : ");
+	couleur("0");
+	fgets(jeu,21,stdin);
+	if (jeu[strlen(jeu)-1] == '\n')
+		jeu[strlen(jeu)-1] = '\0';
+
+	trouve = rechEmpruntJeu(tEmp, nbEmp, nom, prenom, jeu);
+	if (trouve == -1){
+		return;
+	}
+
+	system("date +%Y-%m-%d>date.txt");
+	fgets(tEmp[trouve].dateR,12,fe);
+	if (tEmp[trouve].dateR[strlen(tEmp[trouve].dateR)-1] == '\n')
+		tEmp[trouve].dateR[strlen(tEmp[trouve].dateR)-1] = '\0';
+
+	trouve = rechAdherent(tAdh, nbAdh, nom, prenom);
+	if (trouve == -1)
+		return;
+	tAdh[trouve].nbEmp--;
+	
+	trouve = rechJeux(j, jeu);
+	if (trouve == -1){
+		couleur("31");
+		printf("Le jeu \"%s\" n'a pas été trouvé\n", jeu);
+		couleur("0");
+		return;
+	}
+
+	for (i = 0; i < trouve; i++)
+		j = j->suiv;
+	
+	j->stock++;
+	fclose(fe);
+}
+
+/* Nom : supprAprem
+Finalité : supprime un Aprem du tableau d'Aprem lorsque celui-ci a été trouvé grâce à une recherche et qu'il n'y a aucun inscrit,
+et modifie le nombre total d'Aprem
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: tAprem, tableau d'Aprem
+tAdhAprem, tableau d'AdhAprem
+nbAprem, nombre total d'Aprem
+nbAdhAprem, nombre total d'AdhAprem
+Valeur retourné: Aucune
+Variables : date, date de l'Aprem à supprimer
+heure, heure de l'Aprem à supprimer
+choix, choix de l'utilisateur quant à la suppression lorque l'Aprem existe mais que des adhérents sont inscrits
+trouve, position de l'Aprem dans le tableau d'Aprem ou -1 si l'Aprem n'a pas été trouvée
+i, compteur
+j, compteur
+*/
+void supprAprem(Aprem * tAprem, int * nbAprem, AdhAprem * tAdhAprem, int * nbAdhAprem){
+	int trouve, i, j;
+	char date[11], heure[5], choix;
+
+	couleur("33");
+	printf("Date (AAAA-MM-JJ) : ");
+	couleur("0");
+	fscanf(stdin,"%s", date);
+	
+	couleur("33");
+	printf("Heure (HH:MM) : ");
+	couleur("0");
+	fscanf(stdin,"%s", heure);
+	
+	trouve = rechAprem(tAprem, *nbAprem, date, heure);
+	if (trouve == -1){
+		couleur("31");
+		printf("\nL'après-midi thématique du %s à %s n'existe pas\n", date, heure);
+		couleur("0");
+		return;
+	}
+
+	if (tAprem[trouve].places - tAprem[trouve].placesL != 0){
+		couleur("31");
+		printf("\nDes adhérents sont inscrits à l'après-midi thématique du %s à %s\n", date, heure);
+		couleur("0");
+		couleur("33");
+		printf("\nVoulez-vous vraiment supprimer cet après-midi thématique (O/N) ?");
+		couleur("0");
+		choix = saisirChoix();
+		
+		while (choix != 'O' && choix != 'o' && choix != 'N' && choix != 'n'){
+			couleur("33");
+			printf("Vous-devez répondre par 'O' ou 'N' retapez : ");
+			couleur("0");
+			choix = saisirChoix();
+		}
+
+		if (choix == 'N' || choix == 'n')
+			return;
+	}
+
+	for (i = trouve; i < *nbAprem - 1; i++)
+		tAprem[i] = tAprem[i+1];
+
+	for (i = 0; i < *nbAdhAprem - 1; i++){
+		if (strcasecmp(tAdhAprem[i].date, date) == 0 && strcasecmp(tAdhAprem[i].heure, heure) == 0){
+			for (j = i; j < *nbAdhAprem; j++)
+				tAdhAprem[j] = tAdhAprem[j+1];
+			(nbAdhAprem)--;
+		}
+	}
+
+	(*nbAprem)--;
+}
+
+/* Nom : supprAdhAprem
+Finalité : supprime un AdhAprem du tableau d'Aprem lorsque celui-ci a été trouvé grâce à une recherche,
+puis modifie le nombre total d'AdhAprem
+Paramètres entrant: nbAprem, nombre total d'Aprem
+Paramètres entrant-sortant: tAprem, tableau d'Aprem
+tAdhAprem, tableau d'AdhAprem
+nbAdhAprem, nombre total d'AdhAprem
+Valeur retourné: Aucune
+Variables : date, date de l'AdhAprem à supprimer
+heure, heure de l'AdhAprem à supprimer
+nom, nom de l'adhérent à l'apès-midi thématique à supprimer
+prenom, prénom de l'adhérent à l'apès-midi thématique à supprimer
+trouveAdhAprem, position de l'AdhAprem dans le tableau d'AdhAprem ou -1 si l'AdhAprem n'a pas été trouvée
+trouveAprem, position de l'Aprem dans le tableau d'Aprem ou -1 si l'Aprem n'a pas été trouvée
+i, compteur
+*/
+void supprAdhAprem(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int * nbAdhAprem){
+	char date[11], heure[5], nom[20], prenom[20];
+	int trouveAprem, trouveAdhAprem, i;
+
+	couleur("33");
+	printf("Date (AAAA-MM-JJ) : ");
+	couleur("0");
+	fscanf(stdin,"%s", date);
+	
+	couleur("33");
+	printf("Heure (HH:MM) : ");
+	couleur("0");
+	fscanf(stdin,"%s%*c", heure);
+	
+	couleur("33");
+	printf("Nom : ");
+	couleur("0");
+	fgets(nom,21,stdin);
+	if (nom[strlen(nom)-1] == '\n')
+		nom[strlen(nom)-1] = '\0';
+	
+	couleur("33");
+	printf("Prénom : ");
+	couleur("0");
+	fgets(prenom,21,stdin);
+	if (prenom[strlen(prenom)-1] == '\n')
+		prenom[strlen(prenom)-1] = '\0';
+
+	trouveAprem = rechAprem(tAprem, nbAprem, date, heure);
+	if (trouveAprem == -1){
+		couleur("31");
+		printf("\nL'après-midi thématique du %s à %s est introuvable\n", date, heure);
+		couleur("0");
+		return;
+	}
+
+	trouveAdhAprem = rechAdhAprem(tAdhAprem, *nbAdhAprem, date, heure, nom, prenom);
+	if (trouveAdhAprem == -1){
+		couleur("31");
+		printf("\nL'adhérent : %s %s n'est pas inscrit à cet après-midi thématique\n", nom, prenom);
+		couleur("0");
+		return;
+	}
+
+	for (i = trouveAdhAprem; i < *nbAdhAprem - 1; i++)
+		tAdhAprem[i] = tAdhAprem[i+1];
+
+	tAprem[trouveAprem].placesL++;
+		
+	(*nbAdhAprem)--;
+}
+
+/* Nom : supprJeu
+Finalité : supprime un jeu de la liste de jeux lorsque celui-ci a été trouvé grâce à une recherche,
+puis modifie le nombre total de jeux
+Paramètres entrant: j, liste de jeux
+Paramètres entrant-sortant: nbJeux, nombre total de jeux
+nomJ, nom du jeu à supprimer
+Valeur retourné: j, liste de jeux
+Variables : tmp, pointeur sur Cellule (liste de jeux) permettant la suppression d'un jeu de la liste et la libération de la mémoire pour ce jeu qui n'est plus utile
+*/
+ListeJ supprJeu(ListeJ j, int * nbJeux, char * nomJ){
+	Cellule * tmp;
+	int comp;
+
+	comp = strcasecmp(j->nom, nomJ);
+
+	if (j == NULL || comp > 0){
+		couleur("31");
+		printf("Le jeu \"%s\" n'a pas été trouvé\n", nomJ);
+		couleur("0");
+		return j;
+	}
+
+	if (comp == 0){
+		if (j->nbEx - j->stock != 0){
+			couleur("31");
+			printf("Le jeu :\"%s\" ne peux pas être supprimé car il est en cours d'emprunt\n", j->nom);
+			couleur("0");
+			return j;
+		}
+
+		tmp = j;
+		j = j->suiv;
+
+		free(tmp);
+
+		(*nbJeux)--;
+
+		return j;
+	}
+
+	j->suiv = supprJeu(j->suiv, nbJeux, nomJ); 
+	return j;
 }
 
 /* Nom : modifAdh
@@ -549,500 +1241,6 @@ void modifAdh (Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmp, AdhAprem *
 	}
 }
 
-/* Nom : rechAdherent
-Finalité : recherche de la position d'un Adherent dans un tableau d'Adherent grâce à son nom et à son prénom
-Paramètres entrant: nbAdh, nombre total d'Adherent
-Paramètres entrant-sortant: tAdh, tableau d'Adherent
-nom, nom de l'Adherent à rechercher
-prenom, prénom de l'Adherent à rechercher
-Valeur retourné: i, position de l'Adherent dans le tableau ou -1 si l'Adherent n'a pas été trouvé
-Variables : i, position de l'Adherent dans le tableau
-*/
-int rechAdherent(Adherent * tAdh, int nbAdh, char * nom, char * prenom){
-	int i;
-
-	for (i = 0; i < nbAdh; i++){
-		if (strcasecmp(tAdh[i].nom,nom) == 0 && strcasecmp(tAdh[i].prenom,prenom) == 0)
-			return i;
-	}
-	return -1;
-}
-
-/* Nom : rechJeux
-Finalité : recherche de l'existance d'un Jeux dans une liste de Jeux grâce à son nom
-Paramètres entrant: j, liste de Jeux
-Paramètres entrant-sortant: jeu, nom du Jeux à rechercher
-Valeur retourné: trouve, valeur supérieure à 0 lorsque le Jeux existe, -1 sinon
-Variables : trouve, valeur supérieure à 0 lorsque le Jeux existe, -1 sinon
-*/
-int rechJeux(ListeJ j, char * jeu){
-	int trouve = 0;
-
-	while (j != NULL){
-		if (strcasecmp(j->nom, jeu) == 0)
-			return trouve;
-		j = j->suiv;
-		trouve++;
-	}
-	return -1;
-}
-
-/* Nom : rechEmpruntJeu
-Finalité : Recherhe de la position d'un Emprunt dans un tableau d'Emprunt grâce au nom et au prénom de l'Adherent ainsi qu'au nom du jeu emprunté
-Paramètres entrant: nbEmp, nombre total d'Emprunt
-Paramètres entrant-sortant: tEmp, tableau d'Emprunt
-nom, nom de l'Adherent dont on recherhe un emprunt
-prenom, prénom de l'Adherent dont on recherche un emprunt
-jeu, nom du jeu dont on recherche l'emprunt par un Adherent spécifique
-Valeur retourné: i, position de l'Emprunt dans un tableau d'Emprunt ou -1 lorque l'Emprunt n'a pas été trouvé
-Variables : i, position de l'Emprunt dans un tableau d'Emprunt
-*/
-int rechEmpruntJeu(Emprunt * tEmp, int nbEmp, char * nom, char * prenom, char * jeu){
-	int i;
-
-	for (i = 0; i < nbEmp; i++){
-		if (strcasecmp(tEmp[i].nom, nom) == 0 && strcasecmp(tEmp[i].prenom, prenom) == 0 && strcasecmp(tEmp[i].jeux, jeu) == 0)
-			return i;
-	}
-	couleur("31");
-	printf("\nL'emprunt du jeu : %s par %s %s n'a pas été trouvé\n", jeu, nom, prenom);
-	couleur("0");
-	return -1;
-}
-
-/* Nom : rechAprem
-Finalité : Recherhe de la position d'un Aprem (après-midi thématique) dans un tableau d'Aprem
-Paramètres entrant: nbAprem, nombre total d'Aprem
-Paramètres entrant-sortant: tAprem, tableau d'Aprem
-date, date de l'Aprem recherché
-heure, heure de l'Aprem recherché
-Valeur retourné: i, position de l'Aprem dans un tableau d'Aprem ou -1 lorque l'Aprem n'a pas été trouvé
-Variables : i, position de l'Aprem dans un tableau d'Aprem
-*/
-int rechAprem(Aprem * tAprem, int nbAprem, char * date, char * heure){
-	int i;
-
-	if (strcmp(heure, " ") == 0){
-		for (i = 0; i < nbAprem; i++)
-			if (strcasecmp(tAprem[i].date, date) == 0)
-				return i;
-	}
-
-	else {
-		for (i = 0; i < nbAprem; i++)
-			if (strcasecmp(tAprem[i].date, date) == 0 && strcasecmp(tAprem[i].heure, heure) == 0)
-				return i;
-	}
-	return -1;
-}
-
-/* Nom : rechAdhAprem
-Finalité : Recherhche de la position d'un AdhAprem (adhérent à un après-midi thématique) dans un tableau d'AdhAprem
-Paramètres entrant: nbAdhAprem, nombre total d'adhérents aux après-midi thématiques
-Paramètres entrant-sortant: tAdhAprem, tableau d'AdhAprem
-date, date de l'Aprem recehrché
-heure, heure de l'Aprem recherché
-nom, nom de l'Adherent recherché
-prenom, prénom de l'Adherent recherché
-Valeur retourné: i, position de l'AdhAprem dans un tableau d'AdhAprem ou -1 lorque l'AdhAprem n'a pas été trouvé
-Variables : i, position de l'AdhAprem dans un tableau d'AdhAprem ou -1 lorque l'AdhAprem n'a pas été trouvé
-*/
-int rechAdhAprem(AdhAprem * tAdhAprem, int nbAdhAprem, char * date, char * heure, char * nom, char * prenom){
-	int i;
-
-	for (i = 0; i < nbAdhAprem; i++){
-		if (strcasecmp(tAdhAprem[i].date, date) == 0 && strcasecmp(tAdhAprem[i].heure, heure) == 0 && strcasecmp(tAdhAprem[i].nom, nom) == 0 && strcasecmp(tAdhAprem[i].prenom, prenom) == 0)
-			return i;			
-	}
-	return -1;
-}
-
-/* Nom : rendreJeu
-Finalité : Permet à un Adherent de rendre un Jeux emprunter ultérieurement,
-modifie ainsi le nombre d'emprunts en cours de cet adhérent et la date de retour de l'Emprunt
-Paramètres entrant: nbAdh, nombre total d'Adherent
-nbEmp, nombre total d'Emprunt
-j, liste de Jeux
-Paramètres entrant-sortant: tAdh, tableau d'Adherent
-tEmp, tableau d'Emprunt
-Valeur retourné: Aucune
-Variables : nom, nom de l'Adherent voulant rendre/retourner un jeu
-prenom, prénom de l'Adherent
-jeu, nom du Jeux voulant être retourné
-trouve, position de l'Emprunt dans un tableau d'Emprunt ou -1 si celui si n'a pas été trouvé
-i, compteur
-fe, flot dans lequel est écrit la date du jour, qui est ensuite lue afin de remplir automatiquement la date de retour
-*/
-void rendreJeu(Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmp, ListeJ j){
-	FILE * fe = fopen("date.txt", "r");
-	int trouve, i;
-	char nom[20], prenom[20], jeu[30];
-
-	if (fe == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier\n");
-		couleur("0");
-		return;
-	}
-
-	couleur("33");
-	printf("Nom : ");
-	couleur("0");
-	fgets(nom,21,stdin);
-	if (nom[strlen(nom)-1] == '\n')
-		nom[strlen(nom)-1] = '\0';
-	
-	couleur("33");
-	printf("Prénom : ");
-	couleur("0");
-	fgets(prenom,21,stdin);
-	if (prenom[strlen(prenom)-1] == '\n')
-		prenom[strlen(prenom)-1] = '\0';
-	
-	couleur("33");
-	printf("Jeu : ");
-	couleur("0");
-	fgets(jeu,21,stdin);
-	if (jeu[strlen(jeu)-1] == '\n')
-		jeu[strlen(jeu)-1] = '\0';
-
-	trouve = rechEmpruntJeu(tEmp, nbEmp, nom, prenom, jeu);
-	if (trouve == -1){
-		return;
-	}
-
-	system("date +%Y-%m-%d>date.txt");
-	fgets(tEmp[trouve].dateR,12,fe);
-	if (tEmp[trouve].dateR[strlen(tEmp[trouve].dateR)-1] == '\n')
-		tEmp[trouve].dateR[strlen(tEmp[trouve].dateR)-1] = '\0';
-
-	trouve = rechAdherent(tAdh, nbAdh, nom, prenom);
-	if (trouve == -1)
-		return;
-	tAdh[trouve].nbEmp--;
-	
-	trouve = rechJeux(j, jeu);
-	if (trouve == -1){
-		couleur("31");
-		printf("Le jeu \"%s\" n'a pas été trouvé\n", jeu);
-		couleur("0");
-		return;
-	}
-
-	for (i = 0; i < trouve; i++)
-		j = j->suiv;
-	
-	j->stock++;
-	fclose(fe);
-}
-
-/* Nom : newEmprunt
-Finalité : Enregistrer un nouvel Emprunt dans un tableau d'Emprunt
-Paramètres entrant: nbAdh, nombre total d'Adherent
-j, liste de Jeux
-Paramètres entrant-sortant: tEmp, tableau d'Emprunt
-nbEmp, nombre total d'Emprunt
-tAdh, tableau d'Adherent
-Valeur retourné: newEmp, nouveau tableau d'Emprunt après réallocation si l'Adherent a moins de 3 emprunts en cours,
-que le Jeux et l'Adherent ont été trouvé et que le Jeux est encore en stock
-Variables : newEmp, nouveau tableau d'Emprunt
-date, date d'Emprunt
-nom, nom de l'Adherent voulant emprunté
-prenom, prénom de l'Adherent
-jeu, nom du jeu voulant être emprunté
-trouveAdh, position de l'Adherent dans un tableau d'Adherent
-trouveJeu, position du Jeux dans une liste de Jeux
-i, compteur
-fe, flot dans lequel est écrit la date du jour, qui est ensuite lue afin de remplir automatiquement la date d'Emprunt
-*/
-Emprunt * newEmprunt(Emprunt *tEmp, int *nbEmp, Adherent * tAdh, int nbAdh, ListeJ j){
-	FILE * fe = fopen("date.txt", "r");
-	Emprunt *newEmp;
-	int trouveAdh, trouveJeu, i;
-	char date[11], nom[20], prenom[20], jeu[30];
-	
-	if (fe == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier\n");
-		couleur("0");
-		return;
-	}
-
-	newEmp = (Emprunt *) realloc (tEmp,(*nbEmp+1) * sizeof(Emprunt));
-	if (newEmp == NULL){
-		couleur("31");
-		printf("Erreur lors de l'allocation mémoire\n");
-		couleur("0");
-		exit(1);
-	}
-
-	couleur("33");
-	printf("Nom : ");
-	couleur("0");
-	fgets(nom,21,stdin);
-	if (nom[strlen(nom)-1] == '\n')
-		nom[strlen(nom)-1] = '\0';
-
-	couleur("33");
-	printf("Prénom : ");
-	couleur("0");
-	fgets(prenom,21,stdin);
-	if (prenom[strlen(prenom)-1] == '\n')
-		prenom[strlen(prenom)-1] = '\0';
-
-	trouveAdh = rechAdherent(tAdh, nbAdh, nom, prenom);
-	if (trouveAdh == -1){
-		couleur("31");
-		printf("\nL'adhérent %s %s n'a pas été trouvé\n", nom, prenom);
-		couleur("0");
-		return tEmp;
-	}
-
-	if (tAdh[trouveAdh].nbEmp == 3){
-		couleur("31");
-		printf("\nL'adhérent : %s %s a déjà 3 emprunts non rendus il doit rendre un jeu avant de pouvoir emprunter à nouveau\n", tAdh[trouveAdh].nom, tAdh[trouveAdh].prenom);
-		couleur("0");
-		return tEmp;
-	}
-
-	couleur("33");
-	printf("Jeux : ");
-	couleur("0");
-	fgets(jeu,21,stdin);
-	if (jeu[strlen(jeu)-1] == '\n')
-		jeu[strlen(jeu)-1] = '\0';
-
-	trouveJeu = rechJeux(j, jeu);
-	if (trouveJeu == -1){
-		couleur("31");
-		printf("\nLe jeu %s n'a pas été trouvé\n", jeu);
-		couleur("0");
-		return tEmp;
-	}
-
-	for (i = 0; i < trouveJeu; i++)
-		j = j->suiv;
-	
-	if (j->stock == 0){
-		couleur("31");
-		printf("\nLe jeu \"%s\" n'est plus en stock. Revenez plus tard\n", j->nom);
-		couleur("0");
-		return tEmp;
-	}
-
-	strcpy(newEmp[*nbEmp].nom, tAdh[trouveAdh].nom);
-	strcpy(newEmp[*nbEmp].prenom, tAdh[trouveAdh].prenom);
-	strcpy(newEmp[*nbEmp].jeux, j->nom);
-	
-	system("date +%Y-%m-%d>date.txt");
-	fgets(newEmp[*nbEmp].dateE,12,fe);
-	if (newEmp[*nbEmp].dateE[strlen(newEmp[*nbEmp].dateE)-1] == '\n')
-		newEmp[*nbEmp].dateE[strlen(newEmp[*nbEmp].dateE)-1] = '\0';
-	strcpy(newEmp[*nbEmp].dateR,"");
-
-	tAdh[trouveAdh].nbEmp++;
-	j->stock--;
-
-	(*nbEmp)++;
-	fclose(fe);
-	return newEmp;
-}
-
-/* Nom : lireAprem
-Finalité : lit un Aprem grâce au fichier dans lequel sont stockés tout les après-midi thématiques
-et stock les données dans un type Aprem contenant la date, l'heure, le nombre de places, et le nombre de places libres de chaque Aprem
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: fe, flot contenant les après-midi thématiques
-Valeur retourné: ap, Aprem dans lequel ont été stockées les données
-Variables : ap, Aprem dans lequel ont été stockées les données
-*/
-Aprem lireAprem(FILE *fe){
-	Aprem ap;
-	fscanf(fe,"%s %s %d %d%*c", ap.date, ap.heure, &ap.places, &ap.placesL);
-
-	return ap;
-}
-
-/* Nom : chargeAprem
-Finalité : charge un par un les Aprem stockés dans un fichier prévu à cet effet,
-et les stocks dans un tableau d'Aprem grâce à l'appel de la fonction lireAprem
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les Aprem
-nbAprem, nombre d'Aprem au total étant stocké en tête du fichier
-Valeur retourné: tAprem, tableau d'Aprem
-Variables : tAprem, tableau d'Aprem
-i, compteur permettant l'insertion des Aprem au bon endroit dans le tableau
-fe, flot contenant les Aprem
-*/
-Aprem *chargeAprem(char *nomFichier, int * nbAprem){
-	FILE *fe = fopen(nomFichier,"r");
-	Aprem * tAprem;
-	int i;
-	
-	if (fe == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier\n");
-		couleur("0");
-		return;
-	}
-
-	fscanf(fe,"%d%*c",nbAprem);
-
-	tAprem = (Aprem *)malloc(*nbAprem * sizeof(Aprem));
-	if (tAprem == NULL){
-		couleur("31");
-		printf("Problème d'allocations mémoire\n");
-		couleur("0");
-		return;
-	}
-
-	for (i = 0 ; i < *nbAprem; i++){
-		tAprem[i]=lireAprem(fe);
-	}
-
-	fclose(fe);
-	return tAprem;
-}
-
-/* Nom : afficheAprem
-Finalité : affiche un Aprem (date, heure, nombre de places totales, nombre de places libres)
-Paramètres entrant: ap, Aprem à afficher
-Paramètres entrant-sortant: Aucun
-Valeur retourné: Aucune
-Variables : Aucune
-*/
-void afficheAprem(Aprem ap){
-	printf("%s\t%s\t%d\t%d\n", ap.date, ap.heure, ap.places, ap.placesL);
-}
-
-/* Nom : newAprem
-Finalité : Ajoute un Aprem dans le tableau d'Aprem et modifie le nombre total d'Aprem
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: tAprem, tableau d'Aprem
-nbAprem, nombre total d'Aprem
-Valeur retourné: newAprem, tableau d'Aprem après modification (ou tAprem si l'Aprem existe déjà et qu'il n'y a aucune modification à faire)
-Variables : newAprem, tableau d'Aprem après modification (ou tAprem si l'Aprem existe déjà et qu'il n'y a aucune modification à faire)
-trouve, position de l'Aprem dans le tableau d'Aprem ou -1 si l'Aprem n'a pas été trouvée
-date, date de l'Aprem à créer
-heure, heure de l'Aprem à créer
-*/
-Aprem * newAprem(Aprem * tAprem, int * nbAprem){  // L'APREM NE DOIT PAS DEJA EXISTER
-	Aprem *newAprem;
-	int trouve;
-	char date[11], heure[5];
-
-	newAprem = (Aprem *) realloc (tAprem,(*nbAprem+1) * sizeof(Aprem));
-	if(newAprem == NULL){
-		couleur("31");
-		printf("Erreur lors de l'allocation mémoire\n");
-		couleur("0");
-		exit(1);
-	}
-
-	couleur("33");
-	printf("Date (AAAA-MM-JJ) : ");
-	couleur("0");
-	fscanf(stdin,"%s", date);
-	
-	couleur("33");
-	printf("Heure (HH:MM) : ");
-	couleur("0");
-	fscanf(stdin,"%s", heure);
-
-	
-	trouve = rechAprem(newAprem, *nbAprem, date, heure);
-	if (trouve != -1){
-		couleur("31");
-		printf("\nL'après-midi thématique du %s à %s existe déjà\n", date, heure);
-		couleur("0");
-		return tAprem;
-	}
-
-	strcpy(newAprem[*nbAprem].date, date);
-	strcpy(newAprem[*nbAprem].heure, heure);
-	
-	couleur("33");
-	printf("Places : ");
-	couleur("0");
-	fscanf(stdin,"%d", &newAprem[*nbAprem].places);
-	newAprem[*nbAprem].placesL = newAprem[*nbAprem].places;
-
-	(*nbAprem)++;
-	return newAprem;
-}
-
-/* Nom : supprAprem
-Finalité : supprime un Aprem du tableau d'Aprem lorsque celui-ci a été trouvé grâce à une recherche et qu'il n'y a aucun inscrit,
-et modifie le nombre total d'Aprem
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: tAprem, tableau d'Aprem
-tAdhAprem, tableau d'AdhAprem
-nbAprem, nombre total d'Aprem
-nbAdhAprem, nombre total d'AdhAprem
-Valeur retourné: Aucune
-Variables : date, date de l'Aprem à supprimer
-heure, heure de l'Aprem à supprimer
-choix, choix de l'utilisateur quant à la suppression lorque l'Aprem existe mais que des adhérents sont inscrits
-trouve, position de l'Aprem dans le tableau d'Aprem ou -1 si l'Aprem n'a pas été trouvée
-i, compteur
-j, compteur
-*/
-void supprAprem(Aprem * tAprem, int * nbAprem, AdhAprem * tAdhAprem, int * nbAdhAprem){
-	int trouve, i, j;
-	char date[11], heure[5], choix;
-
-	couleur("33");
-	printf("Date (AAAA-MM-JJ) : ");
-	couleur("0");
-	fscanf(stdin,"%s", date);
-	
-	couleur("33");
-	printf("Heure (HH:MM) : ");
-	couleur("0");
-	fscanf(stdin,"%s", heure);
-	
-	trouve = rechAprem(tAprem, *nbAprem, date, heure);
-	if (trouve == -1){
-		couleur("31");
-		printf("\nL'après-midi thématique du %s à %s n'existe pas\n", date, heure);
-		couleur("0");
-		return;
-	}
-
-	if (tAprem[trouve].places - tAprem[trouve].placesL != 0){
-		couleur("31");
-		printf("\nDes adhérents sont inscrits à l'après-midi thématique du %s à %s\n", date, heure);
-		couleur("0");
-		couleur("33");
-		printf("\nVoulez-vous vraiment supprimer cet après-midi thématique (O/N) ?");
-		couleur("0");
-		choix = saisirChoix();
-		
-		while (choix != 'O' && choix != 'o' && choix != 'N' && choix != 'n'){
-			couleur("33");
-			printf("Vous-devez répondre par 'O' ou 'N' retapez : ");
-			couleur("0");
-			choix = saisirChoix();
-		}
-
-		if (choix == 'N' || choix == 'n')
-			return;
-	}
-
-	for (i = trouve; i < *nbAprem - 1; i++)
-		tAprem[i] = tAprem[i+1];
-
-	for (i = 0; i < *nbAdhAprem - 1; i++){
-		if (strcasecmp(tAdhAprem[i].date, date) == 0 && strcasecmp(tAdhAprem[i].heure, heure) == 0){
-			for (j = i; j < *nbAdhAprem; j++)
-				tAdhAprem[j] = tAdhAprem[j+1];
-			(nbAdhAprem)--;
-		}
-	}
-
-	(*nbAprem)--;
-}
-
 /* Nom : modifAprem
 Finalité : modifie les données d'un après-midi thématique
 Paramètres entrant: nbAprem, nombre total d'Aprem
@@ -1137,514 +1335,6 @@ void modifAprem(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int nbAdhApre
 	}
 }
 
-/* Nom : lireAdhAprem
-Finalité : lit un AdhAprem (adhérent à un après-midi thématique) grâce au fichier dans lequel sont stockés tout les adhérents aux après-midi thématiques
-et stock les données dans un type AdhAprem contenant la date et l'heure de l'après-midi thématique, et le nom et le prénom de l'adhérent
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: fe, flot contenant les adhérents aux après-midi thématiques
-Valeur retourné: aap, AdhAprem dans lequel ont été stockées les données
-Variables : aap, AdhAprem dans lequel ont été stockées les données
-*/
-AdhAprem lireAdhAprem(FILE *fe){
-	AdhAprem aap;
-
-	fscanf(fe,"%s %s%*c", aap.date, aap.heure);
-	fgets(aap.nom,21,fe);
-	if (aap.nom[strlen(aap.nom)-1] == '\n')
-		aap.nom[strlen(aap.nom)-1] = '\0';
-	fgets(aap.prenom,21,fe);
-	if (aap.prenom[strlen(aap.prenom)-1] == '\n')
-		aap.prenom[strlen(aap.prenom)-1] = '\0';
-
-	return aap;
-}
-
-/* Nom : chargeAdhAprem
-Finalité : charge un par un les AdhAprem stockés dans un fichier prévu à cet effet,
-et les stocks dans un tableau d'AdhAprem grâce à l'appel de la fonction lireAdhAprem
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les AdhAprem
-nbAdhAprem, nombre d'AdhAprem au total étant stocké en tête du fichier
-Valeur retourné: tAdhAprem, tableau d'AdhAprem
-Variables : tAdhAprem, tableau d'AdhAprem
-i, compteur permettant l'insertion des AdhAprem au bon endroit dans le tableau
-fe, flot contenant les AdhAprem
-*/
-AdhAprem *chargeAdhAprem(char *nomFichier, int * nbAdhAprem){
-	AdhAprem * tAdhAprem;
-	int i;
-	FILE *fe = fopen(nomFichier,"r");
-	
-	if (fe == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier\n");
-		couleur("0");
-		return;
-	}
-
-	fscanf(fe,"%d%*c",nbAdhAprem);
-
-	tAdhAprem = (AdhAprem *)malloc(*nbAdhAprem * sizeof(AdhAprem));
-	if (tAdhAprem == NULL){
-		couleur("31");
-		printf("Problème d'allocations mémoire\n");
-		couleur("0");
-		return;
-	}
-
-	for (i = 0 ; i < *nbAdhAprem; i++){
-		tAdhAprem[i]=lireAdhAprem(fe);
-	}
-
-	fclose(fe);
-	return tAdhAprem;
-}
-
-/* Nom : afficheAdhAprem
-Finalité : affiche un AdhAprem (date, heure, nom, prénom)
-Paramètres entrant: aap, AdhAprem à afficher
-choix, choix de l'utilisateur concernant l'affichage
-Paramètres entrant-sortant: Aucun
-Valeur retourné: Aucune
-Variables : Aucune
-*/
-void afficheAdhAprem(AdhAprem aap, char choix){
-	if (choix == '1'){
-		printf("%s\t%s\t", aap.date, aap.heure);
-		if(strlen(aap.nom) > 7)
-			printf("%s\t%s\n", aap.nom, aap.prenom);
-		else
-			printf("%s\t\t%s\n", aap.nom, aap.prenom);
-	}
-
-	else if (choix == '2'){
-		if (strlen(aap.nom) > 7)
-			printf("%s\t", aap.nom);
-		else
-			printf("%s\t\t", aap.nom);
-		if (strlen(aap.prenom) > 7)
-			printf("%s\t%s\t%s\n", aap.prenom, aap.date, aap.heure);
-		else
-			printf("%s\t\t%s\t%s\n", aap.prenom, aap.date, aap.heure);
-	}
-
-	else if (choix == '3'){
-		if (strlen(aap.prenom) > 7)
-			printf("%s\t", aap.prenom);
-		else
-			printf("%s\t\t", aap.prenom);
-		if (strlen(aap.nom) > 7)
-			printf("%s\t%s\t%s\n", aap.nom, aap.date, aap.heure);
-		else
-			printf("%s\t\t%s\t%s\n", aap.nom, aap.date, aap.heure);
-	}
-}
-
-/* Nom : newAdhAprem
-Finalité : Ajoute un AdhAprem dans le tableau d'AdhAprem et modifie le nombre total d'AdhAprem
-Paramètres entrant: nbAdh, nombre total d'Adherent
-nbAprem, nombre total d'Aprem
-Paramètres entrant-sortant: tAdhAprem, tableau d'AdhAprem
-tAdh, tableau d'Adherent
-tAprem, tableau d'Aprem
-nbAdhAprem, nombre total d'AdhAprem
-Valeur retourné: newAdhAprem, tableau d'AdhAprem après modification (ou tAdhAprem si l'Aprem ou l'Adherent n'ont pas été trouvés ou si l'Adherent est déjà inscrit ou si il n'y a plus de places libres)
-Variables : newAdhAprem, tableau d'AdhAprem après modification (ou tAdhAprem si l'Aprem ou l'Adherent n'ont pas été trouvés ou si l'Adherent est déjà inscrit ou si il n'y a plus de places libres)
-date, date de l'Aprem recherchée
-heure, heure de l'Aprem recherchée
-nom, nom de l'Adherent à inscrire pour cet Aprem
-prenom, prénom de l'Adherent
-trouveAdh, position de l'Adherent dans le tableau d'Adherent
-trouveAprem, position de l'Aprem dans le tableau d'Aprem
-trouveAdhAprem, position de l'AdhAprem dans le tableau d'AdhAprem
-*/
-AdhAprem * newAdhAprem(AdhAprem * tAdhAprem, int * nbAdhAprem, Adherent * tAdh, int nbAdh, Aprem * tAprem, int nbAprem){
-	AdhAprem *newAdhAprem;
-	char date[11], heure[5], nom[20], prenom[20];
-	int trouveAdh, trouveAprem, trouveAdhAprem;
-
-	newAdhAprem = (AdhAprem *) realloc (tAdhAprem,(*nbAdhAprem+1) * sizeof(AdhAprem));
-	if(newAdhAprem == NULL){
-		couleur("31");
-		printf("Erreur lors de l'allocation mémoire\n");
-		couleur("0");
-		exit(1);
-	}
-
-	couleur("33");
-	printf("Date (AAAA-MM-JJ) : ");
-	couleur("0");
-	fscanf(stdin,"%s", date);
-	
-	couleur("33");
-	printf("Heure (HH:MM) : ");
-	couleur("0");
-	fscanf(stdin,"%s%*c", heure);
-
-	trouveAprem = rechAprem(tAprem, nbAprem, date, heure);
-
-	if (trouveAprem == -1){
-		couleur("31");
-		printf("\nL'après-midi thématique du %s à %s est introuvable\n", date, heure);
-		couleur("0");
-		return tAdhAprem;
-	}
-	if (tAprem[trouveAprem].placesL == 0){
-		couleur("31");
-		printf("\nIl n'y a plus de places libres pour cet après-mid thématique\n");
-		couleur("0");
-		return tAdhAprem;
-	}
-
-	couleur("33");
-	printf("Nom : ");
-	couleur("0");
-	fgets(nom,21,stdin);
-	if (nom[strlen(nom)-1] == '\n')
-		nom[strlen(nom)-1] = '\0';
-	
-	couleur("33");
-	printf("Prénom : ");
-	couleur("0");
-	fgets(prenom,21,stdin);
-	if (prenom[strlen(prenom)-1] == '\n')
-		prenom[strlen(prenom)-1] = '\0';
-
-	trouveAdh = rechAdherent(tAdh, nbAdh, nom, prenom);
-
-	if (trouveAdh == -1){
-		couleur("31");
-		printf("\nL'adhérent : %s %s n'existe pas\n", nom, prenom);
-		couleur("0");
-		return tAdhAprem;
-	}
-
-	trouveAdhAprem = rechAdhAprem(newAdhAprem, *nbAdhAprem, date, heure, nom, prenom);
-	if (trouveAdhAprem != -1){
-		couleur("31");
-		printf("\nL'adhérent : %s %s est déjà inscrit à cet après-midi thématique\n", tAdhAprem[trouveAdhAprem].nom, tAdhAprem[trouveAdhAprem].prenom);
-		couleur("0");
-		return tAdhAprem;
-	}
-
-	strcpy(newAdhAprem[*nbAdhAprem].date, date);
-	strcpy(newAdhAprem[*nbAdhAprem].heure, heure);
-	strcpy(newAdhAprem[*nbAdhAprem].nom, tAdh[trouveAdh].nom);
-	strcpy(newAdhAprem[*nbAdhAprem].prenom, tAdh[trouveAdh].prenom);
-	tAprem[trouveAprem].placesL--;
-
-	(*nbAdhAprem)++;
-	return newAdhAprem;
-}
-
-/* Nom : supprAdhAprem
-Finalité : supprime un AdhAprem du tableau d'Aprem lorsque celui-ci a été trouvé grâce à une recherche,
-puis modifie le nombre total d'AdhAprem
-Paramètres entrant: nbAprem, nombre total d'Aprem
-Paramètres entrant-sortant: tAprem, tableau d'Aprem
-tAdhAprem, tableau d'AdhAprem
-nbAdhAprem, nombre total d'AdhAprem
-Valeur retourné: Aucune
-Variables : date, date de l'AdhAprem à supprimer
-heure, heure de l'AdhAprem à supprimer
-nom, nom de l'adhérent à l'apès-midi thématique à supprimer
-prenom, prénom de l'adhérent à l'apès-midi thématique à supprimer
-trouveAdhAprem, position de l'AdhAprem dans le tableau d'AdhAprem ou -1 si l'AdhAprem n'a pas été trouvée
-trouveAprem, position de l'Aprem dans le tableau d'Aprem ou -1 si l'Aprem n'a pas été trouvée
-i, compteur
-*/
-void supprAdhAprem(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int * nbAdhAprem){
-	char date[11], heure[5], nom[20], prenom[20];
-	int trouveAprem, trouveAdhAprem, i;
-
-	couleur("33");
-	printf("Date (AAAA-MM-JJ) : ");
-	couleur("0");
-	fscanf(stdin,"%s", date);
-	
-	couleur("33");
-	printf("Heure (HH:MM) : ");
-	couleur("0");
-	fscanf(stdin,"%s%*c", heure);
-	
-	couleur("33");
-	printf("Nom : ");
-	couleur("0");
-	fgets(nom,21,stdin);
-	if (nom[strlen(nom)-1] == '\n')
-		nom[strlen(nom)-1] = '\0';
-	
-	couleur("33");
-	printf("Prénom : ");
-	couleur("0");
-	fgets(prenom,21,stdin);
-	if (prenom[strlen(prenom)-1] == '\n')
-		prenom[strlen(prenom)-1] = '\0';
-
-	trouveAprem = rechAprem(tAprem, nbAprem, date, heure);
-	if (trouveAprem == -1){
-		couleur("31");
-		printf("\nL'après-midi thématique du %s à %s est introuvable\n", date, heure);
-		couleur("0");
-		return;
-	}
-
-	trouveAdhAprem = rechAdhAprem(tAdhAprem, *nbAdhAprem, date, heure, nom, prenom);
-	if (trouveAdhAprem == -1){
-		couleur("31");
-		printf("\nL'adhérent : %s %s n'est pas inscrit à cet après-midi thématique\n", nom, prenom);
-		couleur("0");
-		return;
-	}
-
-	for (i = trouveAdhAprem; i < *nbAdhAprem - 1; i++)
-		tAdhAprem[i] = tAdhAprem[i+1];
-
-	tAprem[trouveAprem].placesL++;
-		
-	(*nbAdhAprem)--;
-}
-
-/* Nom : lireJeux
-Finalité : lit un Jeux grâce au fichier dans lequel sont stockés tout les jeux
-et stock les données dans une liste de jeux contenant le nom, le nombre d'exemplaires, le stock restant et le type du jeu
-Paramètres entrant: Aucun
-Paramètres entrant-sortant: fe, flot contenant les jeux
-Valeur retourné: jeu, liste de jeux dans laquelle ont été stockées les données
-Variables : jeu, liste de jeux dans laquelle ont été stockées les données
-*/
-ListeJ lireJeux(FILE *fe){
-	ListeJ jeu;
-
-	fread(jeu->nom, 30, 1, fe);
-	fread(&jeu->nbEx, 4, 1, fe);
-	jeu->stock = jeu->nbEx;
-	fread(jeu->type, 30, 1, fe);
-
-
-	return jeu;
-}
-
-/* Nom : chargeJeux
-Finalité : charge un par un les jeux stockés dans un fichier prévu à cet effet,
-et les stocks dans une liste de jeux grâce à l'appel de la fonction lireJeux
-Paramètres entrant: nbEmp, nombre total d'Emprunt
-Paramètres entrant-sortant: nomFichier, nom du fichier dans lequel sont stockés touts les jeux
-nbJeux, nombre de jeux au total étant stocké en tête du fichier
-tEmp, tableau d'Emprunt
-Valeur retourné: jeux, liste de jeux
-Variables : jeux, liste de jeux
-fe, flot contenant les jeux
-i, compteur permettant l'insertion des jeux un par un en tête de liste
-j, compteur permettant la mise à jour du stock de chaque jeux
-*/
-ListeJ chargeJeux(char * nomFichier, int * nbJeux, Emprunt * tEmp, int nbEmp){
-	FILE *fe = fopen(nomFichier,"rb");
-	ListeJ jeux;
-	int i, j;
-	
-	if(fe == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier\n");
-		couleur("0");
-		return;
-	}
-
-	fscanf(fe,"%d%*c",nbJeux);
-
-	for (i = 0; i < *nbJeux; i++){
-		jeux = insererEnTete(jeux);
-		jeux = lireJeux(fe);
-		for(j = 0 ; j < nbEmp; j++){
-			if (strcasecmp(tEmp[j].jeux, jeux->nom) == 0 && strcmp(tEmp[j].dateR, "") == 0){
-				jeux->stock--;
-			}
-		}
-	}
-
-	fclose(fe);
-	return jeux;
-}
-
-/* Nom : insererEnTete
-Finalité : insertion d'un jeux (Cellule) en tête de liste
-Paramètres entrant: j, liste de jeux
-Paramètres entrant-sortant: Aucun
-Valeur retourné: tmp, pointeur sur Cellule (liste de jeux) allouée et pointant avec son pointeur "suivant" sur la liste j
-Variables : tmp, pointeur sur Cellule (liste de jeux) allouée et pointant avec son pointeur "suivant" sur la liste j
-*/
-ListeJ insererEnTete(ListeJ j){
-	Cellule * tmp;
-
-	tmp = (Cellule*)malloc(sizeof(Cellule));
-		if (tmp == NULL){
-			couleur("31");
-			printf("Prblème lors de l'allocation mémoire\n");
-			couleur("0");
-			exit(1);
-		}
-	
-	tmp->suiv = j;
-
-	return tmp;
-}
-
-/* Nom : insererEnTete
-Finalité : insertion des jeux de la liste j dans la liste triJeux mais triés
-Paramètres entrant: j, liste de jeux
-triJeux, liste de jeux dans laquelle les jeux sont triés
-Paramètres entrant-sortant: Aucun
-Valeur retourné: tmp, pointeur sur Cellule (liste de jeux) allouée et pointant avec son pointeur "suivant" sur la liste triJeux. Les valeurs de tmp sont les valeurs de j
-Variables : tmp, pointeur sur Cellule (liste de jeux) allouée et pointant avec son pointeur "suivant" sur la liste triJeux. Les valeurs de tmp sont les valeurs de j
-*/
-ListeJ insererEnTete2(ListeJ triJeux, ListeJ j){
-	Cellule * tmp;
-
-	tmp = (Cellule*)malloc(sizeof(Cellule));
-		if (tmp == NULL){
-			couleur("31");
-			printf("Prblème lors de l'allocation mémoire\n");
-			couleur("0");
-			exit(1);
-		}
-	
-	strcpy(tmp->nom, j->nom);
-	tmp->nbEx = j->nbEx;
-	tmp->stock = j->stock;
-	strcpy(tmp->type, j->type);
-	tmp->suiv = triJeux;
-
-	return tmp;
-}
-
-/* Nom : afficheJeux
-Finalité : affiche un jeu (nom, nombre d'exemplaires, stock, type)
-Paramètres entrant: j, liste de jeux 
-Paramètres entrant-sortant: Aucun
-Valeur retourné: Aucune
-Variables : Aucune
-*/
-void afficheJeux(ListeJ j){
-	while (j != NULL){
-		if(strlen(j->nom) > 14)
-			printf("%s\t%d\t\t%d\t\t%s\n", j->nom, j->nbEx, j->stock, j->type);
-		
-		else if(strlen(j->nom) > 7)
-			printf("%s\t\t%d\t\t%d\t\t%s\n", j->nom, j->nbEx, j->stock, j->type);
-		
-		else
-			printf("%s\t\t\t%d\t\t%d\t\t%s\n", j->nom, j->nbEx, j->stock, j->type);
-	
-		j = j->suiv;
-	}
-}
-
-/* Nom : newJeu
-Finalité : Ajoute un jeu dans la liste de jeux j et modifie le nombre total de jeux
-Paramètres entrant: j, liste de jeux
-Paramètres entrant-sortant: nbJeux, nombre total de jeux
-Valeur retourné: j, liste de jeux modifiée ou non selon le respect des contraintes (le jeu ne doit pas déjà exister)
-Variables : jeu, nom du nouveau jeu à enregistrer
-trouve, valeur de la recherche du nouveau jeu dans la liste de jeux (-1 si le jeu n'existe pas encore; un nombre positif sinon)
-*/
-ListeJ newJeu(ListeJ j,int * nbJeux){
-	int trouve;
-	char jeu[30];
-
-	couleur("33");
-	printf("Nom : ");
-	couleur("0");
-	fgets(jeu,30,stdin);
-	if (jeu[strlen(jeu)-1] == '\n')
-		jeu[strlen(jeu)-1] = '\0';
-	
-	trouve = rechJeux(j, jeu);
-	if (trouve != -1){
-		couleur("31");
-		printf("\nLe jeu : %s existe déjà\n", jeu);
-		couleur("0");
-		return j;
-	}
-
-	j = insererEnTete(j);
-
-	strcpy(j->nom, jeu);
-	
-	couleur("33");
-	printf("Exemplaires : ");
-	couleur("0");
-	fscanf(stdin,"%d%*c", &j->nbEx);
-	j->stock = j->nbEx;
-	
-	printf("1- Jeux de plateforme | 2- Jeux de cartes | 3- Jeux de construction | 4- Jeux de logique |\n");
-	
-	couleur("33");
-	printf("Type (tapez un chiffre ou le type souhaité) : ");
-	couleur("0");
-	fgets(j->type,21,stdin);
-	if (j->type[strlen(j->type)-1] == '\n')
-		j->type[strlen(j->type)-1] = '\0';
-
-	if (strcmp(j->type, "1") == 0)
-		strcpy(j->type, "Jeux de plateforme");
-	
-	else if (strcmp(j->type, "2") == 0)
-		strcpy(j->type, "Jeux de cartes");
-	
-	else if (strcmp(j->type, "3") == 0)
-		strcpy(j->type, "Jeux de construction");
-	
-	else if (strcmp(j->type, "4") == 0)
-		strcpy(j->type, "Jeux de logique");
-
-	(*nbJeux)++;
-	return j;
-}
-
-/* Nom : supprJeu
-Finalité : supprime un jeu de la liste de jeux lorsque celui-ci a été trouvé grâce à une recherche,
-puis modifie le nombre total de jeux
-Paramètres entrant: j, liste de jeux
-Paramètres entrant-sortant: nbJeux, nombre total de jeux
-nomJ, nom du jeu à supprimer
-Valeur retourné: j, liste de jeux
-Variables : tmp, pointeur sur Cellule (liste de jeux) permettant la suppression d'un jeu de la liste et la libération de la mémoire pour ce jeu qui n'est plus utile
-*/
-ListeJ supprJeu(ListeJ j, int * nbJeux, char * nomJ){
-	Cellule * tmp;
-	int comp;
-
-	comp = strcasecmp(j->nom, nomJ);
-
-	if (j == NULL || comp > 0){
-		couleur("31");
-		printf("Le jeu \"%s\" n'a pas été trouvé\n", nomJ);
-		couleur("0");
-		return j;
-	}
-
-	if (comp == 0){
-		if (j->nbEx - j->stock != 0){
-			couleur("31");
-			printf("Le jeu :\"%s\" ne peux pas être supprimé car il est en cours d'emprunt\n", j->nom);
-			couleur("0");
-			return j;
-		}
-
-		tmp = j;
-		j = j->suiv;
-
-		free(tmp);
-
-		(*nbJeux)--;
-
-		return j;
-	}
-
-	j->suiv = supprJeu(j->suiv, nbJeux, nomJ); 
-	return j;
-}
-
 /* Nom : modifJeu
 Finalité : modifie les données d'un jeu et les emprunts associés
 Paramètres entrant: nbEmp, nombre total d'Emprunt
@@ -1729,293 +1419,6 @@ ListeJ modifJeu(ListeJ j, Emprunt * tEmp, int nbEmp, char choix, char * nomJ){
 
 	j->suiv = modifJeu(j->suiv, tEmp, nbEmp, choix, nomJ);
 	return j;
-}
-
-/* Nom : save
-Finalité : sauvegarde tous les tableaux (Adherent, Emprunt, Aprem, AdhAprem) et la liste (Jeux)
-dans des fchiers (chargés au d"but du programme) permettant à la ludothèque de réutiliser les données
-Paramètres entrant: j, liste de jeux
-nbAdh, nombre total d'Adherent
-nbEmp, nombre total d'Emprunt
-nbAprem, nombre total d'Aprem
-nbAdhAprem, nombre total d'AdhAprem
-nbJeux, nombre total de jeux
-Paramètres entrant-sortant: tAdh, tableau d'Adherent
-tEmp, tableau d'Emprunt
-tAprem, tableau d'Aprem
-tAdhAprem, tableau d'AdhAprem
-Valeur retourné: Aucune
-Variables : i, compteur
-flot1, flot d'écriture dans lequel vont être stockés les Adherent
-flot2, flot d'écriture dans lequel vont être stockés les Emprunt
-flot3, flot d'écriture dans lequel vont être stockés les Aprem
-flot4, flot d'écriture dans lequel vont être stockés les AdhAprem
-flot5, flot binaire d'écriture dans lequel vont être stockés les jeux
-*/
-void save(Adherent * tAdh, Emprunt * tEmp, Aprem * tAprem, AdhAprem * tAdhAprem, ListeJ j, int nbAdh, int nbEmp, int nbAprem, int nbAdhAprem, int nbJeux){
-	int i;
-	
-	FILE * flot1 = fopen("adhérents.don","w");
-	if (flot1 == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier adhérents.don\n");
-		couleur("0");
-		return;
-	}
-	FILE * flot2 = fopen("emprunts.don","w");
-	if (flot2 == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier emprunts.don\n");
-		couleur("0");
-		return;
-	}
-	FILE * flot3 = fopen("am_thématiques.don","w");
-	if (flot3 == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier am_thématiques.don\n");
-		couleur("0");
-		return;
-	}
-	FILE * flot4 = fopen("inscription_am_th.don","w");
-	if (flot4 == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier inscription_am_th.don\n");
-		couleur("0");
-		return;
-	}
-	FILE * flot5 = fopen("jeux.bin","wb");
-	if (flot5 == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier jeux.don\n");
-		couleur("0");
-		return;
-	}
-
-	fprintf(flot1, "%d\n", nbAdh);
-	for(i = 0; i < nbAdh; i++){
-		fprintf(flot1, "%s\n%s\n%s\n%s\n%s\n%d\n", tAdh[i].nom, tAdh[i].prenom, tAdh[i].date, tAdh[i].tel, tAdh[i].ville, tAdh[i].nbEmp);
-	}
-
-	fprintf(flot2, "%d\n", nbEmp);
-	for(i = 0; i < nbEmp; i++){
-		fprintf(flot2, "%s\n%s\n%s\n%s\n%s\n", tEmp[i].nom, tEmp[i].prenom, tEmp[i].jeux, tEmp[i].dateE, tEmp[i].dateR);
-	}
-
-	fprintf(flot3, "%d\n", nbAprem);
-	for(i = 0; i < nbAprem; i++){
-		fprintf(flot3, "%s %s %d %d\n", tAprem[i].date, tAprem[i].heure, tAprem[i].places, tAprem[i].placesL);
-	}
-
-	fprintf(flot4, "%d\n", nbAdhAprem);
-	for(i = 0; i < nbAdhAprem; i++){
-		fprintf(flot4, "%s %s\n%s\n%s\n", tAdhAprem[i].date, tAdhAprem[i].heure, tAdhAprem[i].nom, tAdhAprem[i].prenom);
-	}
-
-	fprintf(flot5, "%d\n", nbJeux);
-	while (j != NULL){
-		fwrite(j->nom, 30, 1, flot5);
-		fwrite(&j->nbEx, 4, 1, flot5);
-		fwrite(j->type, 30, 1, flot5);
-		j = j->suiv;
-	}
-
-	fclose(flot1);
-	fclose(flot2);
-	fclose(flot3);
-	fclose(flot4);
-	fclose(flot5);
-}
-
-/* Nom : verifDateEmprunt
-Finalité : Vérifie qu'un emprunt (qui n'a pas de date de retour) n'est pas en retard c'est à dire qu'il n'est pas emprunté depuis plus de 3 semaines
-Paramètres entrant: emp, Emprunt dont on veut vérifier le retard
-Paramètres entrant-sortant: Aucun
-Valeur retourné: 1, si l'Emprunt n'est pas en retard; 0 si il y a eu une erreur d'ouverture avec un fichier et -1 si l'Emprunt est en retard
-Variables : jourA, valeur du jour actuel
-moisA, valeur du mois actuel
-anneeA, valeur de l'année actuelle
-jourR, valeur du jour maximal (3 semaines avant la date d'aujourd'hui) pour lequel les emprunts sont encore en règle
-moisR, valeur du mois maximal
-anneeR, valeur de l'année maximale
-rendre, chaîne de caractère de la forme AAAA-MM-JJ à comparer avec la date d'emprunt  pour vérifier le respect des contraintes par l'Emprunt
-*/
-int verifDateEmprunt(Emprunt emp){
-	int jourA, moisA, anneeA, jourR, moisR, anneeR;
-	char rendre[11];
-
-	FILE * fe = fopen("date.txt", "r");
-	FILE * fs = fopen("retard.don","w");
-	if (fe == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier date.txt\n");
-		couleur("0");
-		return 0;
-	}
-	if (fs == NULL){
-		couleur("31");
-		printf("Erreur lors de l'ouverture du fichier retard.don\n");
-		couleur("0");
-		return 0;
-	}
-	
-	if(strcmp(emp.dateR, "") == 0){
-		system("date +%Y-%m-%d>date.txt");
-		fscanf(fe, "%d%*c%d%*c%d", &anneeA, &moisA, &jourA);
-		anneeR = anneeA;
-		moisR = moisA;
-		jourR = jourA;
-
-		if(moisR == 1 || moisR == 2 || moisR == 4 || moisR == 6 || moisR == 8 || moisR == 9 || moisR == 11 && jourR > 21){
-			jourR -= 21;
-		}
-		else if(moisR == 1 || moisR == 2 || moisR == 4 || moisR == 6 || moisR == 8 || moisR == 9 || moisR == 11 && jourR <= 21){
-			jourR += 10;
-			moisR--;
-		}
-		else if(moisR == 3 || moisR == 5 || moisR == 7 || moisR == 10 || moisR == 12 && jourR > 21){
-			jourR -= 21;
-		}
-		else if(moisR == 3 || moisR == 5 || moisR == 7 || moisR == 10 || moisR == 12 && jourR <= 21){
-			jourR +=9;
-			moisR--;
-		}
-		if(moisR == 0){
-			moisR = 12;
-			anneeR--;
-		}
-
-		if ((moisR == 1 || moisR == 2 || moisR == 3 || moisR == 4 || moisR == 5 || moisR == 6 || moisR == 7 || moisR == 8 || moisR == 9) && (jourR == 1 || jourR == 2 || jourR == 3 || jourR == 4 || jourR == 5 || jourR == 6 || jourR == 7 || jourR == 8 || jourR == 9))
-			fprintf(fs, "%d-0%d-0%d\n", anneeR, moisR, jourR);
-
-		else if (moisR == 1 || moisR == 2 || moisR == 3 || moisR == 4 || moisR == 5 || moisR == 6 || moisR == 7 || moisR == 8 || moisR == 9)
-			fprintf(fs, "%d-0%d-%d\n", anneeR, moisR, jourR);
-		
-		else if (jourR == 1 || jourR == 2 || jourR == 3 || jourR == 4 || jourR == 5 || jourR == 6 || jourR == 7 || jourR == 8 || jourR == 9)
-			fprintf(fs, "%d-%d-0%d\n", anneeR, moisR, jourR);
-		
-		else
-			fprintf(fs, "%d-%d-%d\n", anneeR, moisR, jourR);
-
-		fclose(fs);
-		FILE * fs = fopen("retard.don","r");
-		if (fs == NULL){
-			couleur("31");
-			printf("Erreur lors de l'ouverture du fichier test.don\n");
-			couleur("0");
-			return 0;
-		}
-		
-		fgets(rendre,16,fs);
-		if (rendre[strlen(rendre)-1] == '\n')
-			rendre[strlen(rendre)-1] = '\0';
-
-		if (strcasecmp(emp.dateE, rendre) < 0)
-			return -1;
-	}
-
-	fclose(fe);
-	fclose(fs);
-	return 1;
-}
-
-/* Nom : triSelectEmp
-Finalité : tri un tableau d'emprunt selon le choix de l'utilisateur
-Paramètres entrant: nbEmp, nombre total d'Emprunt
-choix, choix de l'utilisateur
-Paramètres entrant-sortant: tEmp, tableau d'Emprunt
-Valeur retourné: Aucune
-Variables : pos, position d'insertion de l'Emprunt à replacer dans un tableau d'Emprunt trié
-emp, Emprunt temporaire pemettant d'interchanger deux emprunts et ainsi de trier le tableau
-*/
-void triSelectEmp(Emprunt * tEmp, int nbEmp, char choix){
-	int pos;
-	Emprunt emp;
-
-	if (nbEmp > 1){
-		if (choix == '1')
-			pos = rechminEN(tEmp, nbEmp);
-		if (choix == '2')
-			pos = rechminEP(tEmp, nbEmp);
-		if (choix == '3')
-			pos = rechminEJ(tEmp, nbEmp);
-		
-		emp = tEmp[0];
-		tEmp[0] = tEmp[pos];
-		tEmp[pos] = emp;
-
-		triSelectEmp(tEmp+1, nbEmp-1, choix);
-	}
-}
-
-/* Nom : rechminEN
-Finalité : recherche de la position de l'Emprunt ayant le nom de l'adhérent empruntant
-parmi tout les emprunts envoyés qui arrive en premier dans l'ordre alphabétique
-Paramètres entrant: nbEmp, nombre total d'Emprunt
-Paramètres entrant-sortant: tEmp, tableau d'Emprunt
-Valeur retourné: pos, position de l'Emprunt à déplacer dans le tableau 
-Variables : pos, position de l'Emprunt à déplacer dans le tableau
-i, compteur
-*/
-int rechminEN(Emprunt * tEmp, int nbEmp){
-	int i, pos = 0;
-
-	for (i = 0; i < nbEmp; i++){
-		if (strcasecmp(tEmp[i].nom, tEmp[pos].nom) < 0)
-			pos = i;
-		
-		if (strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) < 0)
-			pos = i;
-		
-		if (strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) == 0 && strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) < 0)
-			pos = i;
-	}
-
-	return pos;
-}
-
-/* Nom : rechminEP
-Finalité : recherche de la position de l'Emprunt ayant le prénom de l'adhérent empruntant
-parmi tout les emprunts envoyés qui arrive en premier dans l'ordre alphabétique
-Paramètres entrant: nbEmp, nombre total d'Emprunt
-Paramètres entrant-sortant: tEmp, tableau d'Emprunt
-Valeur retourné: pos, position de l'Emprunt à déplacer dans le tableau 
-Variables : pos, position de l'Emprunt à déplacer dans le tableau
-i, compteur
-*/
-int rechminEP(Emprunt * tEmp, int nbEmp){
-	int i, pos = 0;
-
-	for (i = 0; i < nbEmp; i++){
-		if (strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) < 0)
-			pos = i;
-		if (strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) == 0 && strcasecmp(tEmp[i].nom, tEmp[pos].nom) < 0)
-			pos = i;
-		if (strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) == 0 && strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) < 0)
-			pos = i;
-	}
-	return pos;
-}
-
-/* Nom : rechminEN
-Finalité : recherche de la position de l'Emprunt ayant le nom de jeu emprunté
-parmi tout les emprunts envoyés qui arrive en premier dans l'ordre alphabétique
-Paramètres entrant-sortant: tEmp, tableau d'Emprunt
-Valeur retourné: pos, position de l'Emprunt à déplacer dans le tableau 
-Variables : pos, position de l'Emprunt à déplacer dans le tableau
-i, compteur
-*/
-int rechminEJ(Emprunt * tEmp, int nbEmp){
-	int i, pos = 0;
-
-	for (i = 0; i < nbEmp; i++){
-		if (strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) < 0)
-			pos = i;
-		if (strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) == 0 && strcasecmp(tEmp[i].nom, tEmp[pos].nom) < 0)
-			pos = i;
-		if (strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) == 0 && strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) < 0)
-			pos = i;
-	}
-	return pos;
 }
 
 /* Nom : triInsertionAdh
@@ -2148,6 +1551,106 @@ void bulleAdhnbE(Adherent  * tAdh, int nbAdh){
 		bulleAdhnbE(tAdh, nbAdh-1);
 }
 
+/* Nom : triSelectEmp
+Finalité : tri un tableau d'emprunt selon le choix de l'utilisateur
+Paramètres entrant: nbEmp, nombre total d'Emprunt
+choix, choix de l'utilisateur
+Paramètres entrant-sortant: tEmp, tableau d'Emprunt
+Valeur retourné: Aucune
+Variables : pos, position d'insertion de l'Emprunt à replacer dans un tableau d'Emprunt trié
+emp, Emprunt temporaire pemettant d'interchanger deux emprunts et ainsi de trier le tableau
+*/
+void triSelectEmp(Emprunt * tEmp, int nbEmp, char choix){
+	int pos;
+	Emprunt emp;
+
+	if (nbEmp > 1){
+		if (choix == '1')
+			pos = rechminEN(tEmp, nbEmp);
+		if (choix == '2')
+			pos = rechminEP(tEmp, nbEmp);
+		if (choix == '3')
+			pos = rechminEJ(tEmp, nbEmp);
+		
+		emp = tEmp[0];
+		tEmp[0] = tEmp[pos];
+		tEmp[pos] = emp;
+
+		triSelectEmp(tEmp+1, nbEmp-1, choix);
+	}
+}
+
+/* Nom : rechminEN
+Finalité : recherche de la position de l'Emprunt ayant le nom de l'adhérent empruntant
+parmi tout les emprunts envoyés qui arrive en premier dans l'ordre alphabétique
+Paramètres entrant: nbEmp, nombre total d'Emprunt
+Paramètres entrant-sortant: tEmp, tableau d'Emprunt
+Valeur retourné: pos, position de l'Emprunt à déplacer dans le tableau 
+Variables : pos, position de l'Emprunt à déplacer dans le tableau
+i, compteur
+*/
+int rechminEN(Emprunt * tEmp, int nbEmp){
+	int i, pos = 0;
+
+	for (i = 0; i < nbEmp; i++){
+		if (strcasecmp(tEmp[i].nom, tEmp[pos].nom) < 0)
+			pos = i;
+		
+		if (strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) < 0)
+			pos = i;
+		
+		if (strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) == 0 && strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) < 0)
+			pos = i;
+	}
+
+	return pos;
+}
+
+/* Nom : rechminEP
+Finalité : recherche de la position de l'Emprunt ayant le prénom de l'adhérent empruntant
+parmi tout les emprunts envoyés qui arrive en premier dans l'ordre alphabétique
+Paramètres entrant: nbEmp, nombre total d'Emprunt
+Paramètres entrant-sortant: tEmp, tableau d'Emprunt
+Valeur retourné: pos, position de l'Emprunt à déplacer dans le tableau 
+Variables : pos, position de l'Emprunt à déplacer dans le tableau
+i, compteur
+*/
+int rechminEP(Emprunt * tEmp, int nbEmp){
+	int i, pos = 0;
+
+	for (i = 0; i < nbEmp; i++){
+		if (strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) < 0)
+			pos = i;
+		if (strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) == 0 && strcasecmp(tEmp[i].nom, tEmp[pos].nom) < 0)
+			pos = i;
+		if (strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) == 0 && strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) < 0)
+			pos = i;
+	}
+	return pos;
+}
+
+/* Nom : rechminEN
+Finalité : recherche de la position de l'Emprunt ayant le nom de jeu emprunté
+parmi tout les emprunts envoyés qui arrive en premier dans l'ordre alphabétique
+Paramètres entrant-sortant: tEmp, tableau d'Emprunt
+Valeur retourné: pos, position de l'Emprunt à déplacer dans le tableau 
+Variables : pos, position de l'Emprunt à déplacer dans le tableau
+i, compteur
+*/
+int rechminEJ(Emprunt * tEmp, int nbEmp){
+	int i, pos = 0;
+
+	for (i = 0; i < nbEmp; i++){
+		if (strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) < 0)
+			pos = i;
+		if (strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) == 0 && strcasecmp(tEmp[i].nom, tEmp[pos].nom) < 0)
+			pos = i;
+		if (strcasecmp(tEmp[i].jeux, tEmp[pos].jeux) == 0 && strcasecmp(tEmp[i].nom, tEmp[pos].nom) == 0 && strcasecmp(tEmp[i].prenom, tEmp[pos].prenom) < 0)
+			pos = i;
+	}
+	return pos;
+}
+
 /* Nom : bulleApremD
 Finalité : Tri d'un tableau d'Aprem par leur date
 Paramètres entrant: nbAprem, nombre total d'Aprem
@@ -2207,64 +1710,6 @@ void bulleApremP(Aprem * tAprem, int nbAprem, char choix){
 			}
 		}
 		bulleApremP(tAprem, nbAprem-1, choix);
-}
-
-/* Nom : triJeux
-Finalité : Tri une liste de jeux par nom, nombre d'exemplaires, ou type de jeu selon le choix de l'utilisateur
-Paramètres entrant: j, liste de jeux
-nbJeux, nombre total de jeux
-choix, choix de l'utilisateur concernant le tri
-Paramètres entrant-sortant: Aucun
-Valeur retourné: triJeux, liste triée
-Variables : triJeux, liste triée
-i, compteur
-*/
-ListeJ triJeux(ListeJ j, int nbJeux, char choix){
-	ListeJ triJeux = jVide();
-	int i;
-
-	for (i = 0; i < nbJeux; i++){
-		triJeux = ajouter(triJeux, j, choix);
-		j = j->suiv;
-	}
-	
-	return triJeux;
-}
-
-/* Nom : ajouter
-Finalité : ajout d'une Cellule de jeu au bon endroit dans une deuxième liste de jeux (qui elle est triée)
-Paramètres entrant: triJeux, liste de jeux triée
-j, liste de jeux
-choix, choix de l'utilisateur concernant le tri des jeux
-Paramètres entrant-sortant: Aucun
-Valeur retourné: triJeux, liste de jeux triée après insertion de la nouvelle Cellule
-Variables : Aucune
-*/
-ListeJ ajouter(ListeJ triJeux, ListeJ j, char choix){
-	if (choix == '1'){
-		if (triJeux == NULL || strcasecmp(triJeux->nom, j->nom) >= 0)
-			triJeux = insererEnTete2(triJeux, j);
-		else
-			triJeux->suiv = ajouter(triJeux->suiv, j, choix);
-		
-		return triJeux;
-	}
-
-	else if (choix == '2'){
-		if (triJeux == NULL || triJeux->nbEx >= j->nbEx)
-			triJeux = insererEnTete2(triJeux, j);
-		else
-			triJeux->suiv = ajouter(triJeux->suiv, j, choix);
-		return triJeux;
-	}
-
-	else if (choix == '3'){
-		if (triJeux == NULL || strcasecmp(triJeux->type, j->type) >= 0)
-			triJeux = insererEnTete2(triJeux, j);
-		else
-			triJeux->suiv = ajouter(triJeux->suiv, j, choix);
-		return triJeux;
-	}
 }
 
 /* Nom : bulleAdhApremD
@@ -2328,59 +1773,490 @@ void bulleAdhAprem(AdhAprem * tAdhAprem, int nbAdhAprem, char choix){
 		bulleAdhAprem(tAdhAprem, nbAdhAprem-1, choix);
 }
 
-/* Nom : rechJeu
-Finalité : recherche d'un jeu dans une liste de jeux pour ensuite afficher toutes les informations concernant ce jeu
+/* Nom : triJeux
+Finalité : Tri une liste de jeux par nom, nombre d'exemplaires, ou type de jeu selon le choix de l'utilisateur
 Paramètres entrant: j, liste de jeux
 nbJeux, nombre total de jeux
-nbEmp, nombre total d'Emprunt
-Paramètres entrant-sortant: tEmp, tableau d'Emprunt
-Valeur retourné: Aucune
-Variables : nomJ, nom du jeu recherché
-trouve, valeur de la recherche du jeu (grâce à son nom) dans la liste de jeux
+choix, choix de l'utilisateur concernant le tri
+Paramètres entrant-sortant: Aucun
+Valeur retourné: triJeux, liste triée
+Variables : triJeux, liste triée
 i, compteur
 */
-void rechJeu(ListeJ j, int nbJeux, Emprunt * tEmp, int nbEmp){
-	char nomJ[30];
-	int trouve, exemp, i;
+ListeJ triJeux(ListeJ j, int nbJeux, char choix){
+	ListeJ triJeux = jVide();
+	int i;
 
-	couleur("33");
-	printf("Nom du jeu : ");
-	couleur("0");
-	fgets(nomJ, 31, stdin);
-	if (nomJ[strlen(nomJ)-1] == '\n')
-		nomJ[strlen(nomJ)-1] = '\0';
-
-	trouve = rechJeux(j, nomJ);
-	if (trouve == -1){
-		couleur("31");
-		printf("\nLe jeu : %s n'a pas été trouvé\n", nomJ);
-		couleur("0");
-		return;
-	}
-
-	for (i = 0; i < trouve; i++)
+	for (i = 0; i < nbJeux; i++){
+		triJeux = ajouter(triJeux, j, choix);
 		j = j->suiv;
-
-	if (j->stock == 0){
-		printf("\nIl ne reste plus d'exemplaires du jeu \"%s\" en stock\n", j->nom);
 	}
-	else
-		printf("\nIl reste %d exemplaires du jeu \"%s\" en stock\n", j->stock, j->nom);
+	
+	return triJeux;
+}
 
-	if (j->nbEx - j->stock == 0)
-		printf("Aucun n'emprunt n'est en cours avec le jeu \"%s\"\n", j->nom);
-	else if (j->nbEx - j->stock == 1)
-		printf("\nL'adhérent ayant un empunt en cours avec le jeu \"%s\" est :\n", j->nom);
-	else
-		printf("\nLes adhérents ayant un emprunt en cours avec le jeu \"%s\" sont :\n", j->nom);
-	for( i = 0; i < nbEmp; i++){
-		if (strcasecmp(tEmp[i].jeux, nomJ) == 0 && strcmp(tEmp[i].dateR, "") == 0){
-			if (strlen(tEmp[i].nom) > 7)
-				printf("%s\t%s\n", tEmp[i].nom, tEmp[i].prenom);
-			else
-				printf("%s\t\t%s\n", tEmp[i].nom, tEmp[i].prenom);
+/* Nom : jVide
+Finalité : retourne une liste vide
+Paramètres entrant: Aucun
+Paramètres entrant-sortant: Aucun
+Valeur retourné: NULL
+Variables : Aucune
+*/
+ListeJ jVide(void){
+	return NULL;
+}
+
+/* Nom : ajouter
+Finalité : ajout d'une Cellule de jeu au bon endroit dans une deuxième liste de jeux (qui elle est triée)
+Paramètres entrant: triJeux, liste de jeux triée
+j, liste de jeux
+choix, choix de l'utilisateur concernant le tri des jeux
+Paramètres entrant-sortant: Aucun
+Valeur retourné: triJeux, liste de jeux triée après insertion de la nouvelle Cellule
+Variables : Aucune
+*/
+ListeJ ajouter(ListeJ triJeux, ListeJ j, char choix){
+	if (choix == '1'){
+		if (triJeux == NULL || strcasecmp(triJeux->nom, j->nom) >= 0)
+			triJeux = insererEnTete2(triJeux, j);
+		else
+			triJeux->suiv = ajouter(triJeux->suiv, j, choix);
+		
+		return triJeux;
+	}
+
+	else if (choix == '2'){
+		if (triJeux == NULL || triJeux->nbEx >= j->nbEx)
+			triJeux = insererEnTete2(triJeux, j);
+		else
+			triJeux->suiv = ajouter(triJeux->suiv, j, choix);
+		return triJeux;
+	}
+
+	else if (choix == '3'){
+		if (triJeux == NULL || strcasecmp(triJeux->type, j->type) >= 0)
+			triJeux = insererEnTete2(triJeux, j);
+		else
+			triJeux->suiv = ajouter(triJeux->suiv, j, choix);
+		return triJeux;
+	}
+}
+
+/* Nom : insererEnTete
+Finalité : insertion des jeux de la liste j dans la liste triJeux mais triés
+Paramètres entrant: j, liste de jeux
+triJeux, liste de jeux dans laquelle les jeux sont triés
+Paramètres entrant-sortant: Aucun
+Valeur retourné: tmp, pointeur sur Cellule (liste de jeux) allouée et pointant avec son pointeur "suivant" sur la liste triJeux. Les valeurs de tmp sont les valeurs de j
+Variables : tmp, pointeur sur Cellule (liste de jeux) allouée et pointant avec son pointeur "suivant" sur la liste triJeux. Les valeurs de tmp sont les valeurs de j
+*/
+ListeJ insererEnTete2(ListeJ triJeux, ListeJ j){
+	Cellule * tmp;
+
+	tmp = (Cellule*)malloc(sizeof(Cellule));
+		if (tmp == NULL){
+			couleur("31");
+			printf("Prblème lors de l'allocation mémoire\n");
+			couleur("0");
+			exit(1);
 		}
+	
+	strcpy(tmp->nom, j->nom);
+	tmp->nbEx = j->nbEx;
+	tmp->stock = j->stock;
+	strcpy(tmp->type, j->type);
+	tmp->suiv = triJeux;
+
+	return tmp;
+}
+
+/* Nom : afficheAdh
+Finalité : affiche un Adherent (nom, prénom, jeu, date d'emprunt, date de retour (ou "non rendu"))
+Paramètres entrant: adh, Adherent à afficher
+choix, choix de l'affichage
+Paramètres entrant-sortant: Aucun
+Valeur retourné: Aucune
+Variables : Aucune
+*/
+void afficheAdh(Adherent adh, char choix){
+	if (choix == '1' || choix == '4'){
+		if (strlen(adh.nom) > 7)
+			printf("%s\t", adh.nom);
+		else
+			printf("%s\t\t", adh.nom);
+
+		if (strlen(adh.prenom) > 7)
+			printf("%s\t%s\t%s\t", adh.prenom, adh.date, adh.tel);
+		else
+			printf("%s\t\t%s\t%s\t", adh.prenom, adh.date, adh.tel);
+
+		if (strlen(adh.ville) > 14)
+			printf("%s\t%d\n", adh.ville, adh.nbEmp);
+		else if (strlen(adh.ville) > 7 )
+			printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
+		else
+			printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
 	}
+
+	else if (choix == '2'){
+		if (strlen(adh.prenom) > 7)
+			printf("%s\t", adh.prenom);
+		else
+			printf("%s\t\t", adh.prenom);
+
+		if (strlen(adh.nom) > 7)
+			printf("%s\t%s\t%s\t", adh.nom, adh.date, adh.tel);
+		else
+			printf("%s\t\t%s\t%s\t", adh.nom, adh.date, adh.tel);
+		
+		if (strlen(adh.ville) > 14)
+			printf("%s\t%d\n", adh.ville, adh.nbEmp);
+		else if (strlen(adh.ville) > 7 )
+			printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
+		else
+			printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
+	}
+
+	else if (choix == '3'){
+		if (strlen(adh.nom) > 7)
+			printf("%s\t%s\t", adh.date, adh.nom);
+		else
+			printf("%s\t%s\t\t", adh.date, adh.nom);
+		
+		if (strlen(adh.prenom) > 7)
+			printf("%s\t%s\t", adh.prenom, adh.tel);
+		else
+			printf("%s\t\t%s\t", adh.prenom, adh.tel);
+		
+		if (strlen(adh.ville) > 14)
+			printf("%s\t%d\n", adh.ville, adh.nbEmp);
+		else if (strlen(adh.ville) > 7 )
+			printf("%s\t\t%d\n", adh.ville, adh.nbEmp);
+		else
+			printf("%s\t\t\t%d\n", adh.ville, adh.nbEmp);
+	}
+}
+
+/* Nom : afficheEmp
+Finalité : affiche un Emprunt (nom, prénom, jeu, date d'emprunt, date de retour (ou "non rendu"))
+Paramètres entrant: emp, Emprunt à afficher
+Paramètres entrant-sortant: Aucun
+Valeur retourné: Aucune
+Variables : Aucune
+*/
+void afficheEmp(Emprunt emp){
+
+	if (strlen(emp.nom) > 7)
+		printf("%s\t", emp.nom);
+	else
+		printf("%s\t\t", emp.nom);
+
+	if (strlen(emp.prenom) > 7)
+		printf("%s\t", emp.prenom);
+	else
+		printf("%s\t\t", emp.prenom);
+
+	if (strlen(emp.jeux) > 7)
+		printf("%s\t", emp.jeux);
+	else
+		printf("%s\t\t", emp.jeux);
+
+	if (strcmp(emp.dateR,"") == 0)
+		printf("%s\tNon rendu\n", emp.dateE);
+	else
+		printf("%s\t%s\n", emp.dateE, emp.dateR);
+}
+
+/* Nom : afficheAprem
+Finalité : affiche un Aprem (date, heure, nombre de places totales, nombre de places libres)
+Paramètres entrant: ap, Aprem à afficher
+Paramètres entrant-sortant: Aucun
+Valeur retourné: Aucune
+Variables : Aucune
+*/
+void afficheAprem(Aprem ap){
+	printf("%s\t%s\t%d\t%d\n", ap.date, ap.heure, ap.places, ap.placesL);
+}
+
+/* Nom : afficheAdhAprem
+Finalité : affiche un AdhAprem (date, heure, nom, prénom)
+Paramètres entrant: aap, AdhAprem à afficher
+choix, choix de l'utilisateur concernant l'affichage
+Paramètres entrant-sortant: Aucun
+Valeur retourné: Aucune
+Variables : Aucune
+*/
+void afficheAdhAprem(AdhAprem aap, char choix){
+	if (choix == '1'){
+		printf("%s\t%s\t", aap.date, aap.heure);
+		if(strlen(aap.nom) > 7)
+			printf("%s\t%s\n", aap.nom, aap.prenom);
+		else
+			printf("%s\t\t%s\n", aap.nom, aap.prenom);
+	}
+
+	else if (choix == '2'){
+		if (strlen(aap.nom) > 7)
+			printf("%s\t", aap.nom);
+		else
+			printf("%s\t\t", aap.nom);
+		if (strlen(aap.prenom) > 7)
+			printf("%s\t%s\t%s\n", aap.prenom, aap.date, aap.heure);
+		else
+			printf("%s\t\t%s\t%s\n", aap.prenom, aap.date, aap.heure);
+	}
+
+	else if (choix == '3'){
+		if (strlen(aap.prenom) > 7)
+			printf("%s\t", aap.prenom);
+		else
+			printf("%s\t\t", aap.prenom);
+		if (strlen(aap.nom) > 7)
+			printf("%s\t%s\t%s\n", aap.nom, aap.date, aap.heure);
+		else
+			printf("%s\t\t%s\t%s\n", aap.nom, aap.date, aap.heure);
+	}
+}
+
+/* Nom : afficheJeux
+Finalité : affiche un jeu (nom, nombre d'exemplaires, stock, type)
+Paramètres entrant: j, liste de jeux 
+Paramètres entrant-sortant: Aucun
+Valeur retourné: Aucune
+Variables : Aucune
+*/
+void afficheJeux(ListeJ j){
+	while (j != NULL){
+		if(strlen(j->nom) > 14)
+			printf("%s\t%d\t\t%d\t\t%s\n", j->nom, j->nbEx, j->stock, j->type);
+		
+		else if(strlen(j->nom) > 7)
+			printf("%s\t\t%d\t\t%d\t\t%s\n", j->nom, j->nbEx, j->stock, j->type);
+		
+		else
+			printf("%s\t\t\t%d\t\t%d\t\t%s\n", j->nom, j->nbEx, j->stock, j->type);
+	
+		j = j->suiv;
+	}
+}
+
+/* Nom : rechAdherent
+Finalité : recherche de la position d'un Adherent dans un tableau d'Adherent grâce à son nom et à son prénom
+Paramètres entrant: nbAdh, nombre total d'Adherent
+Paramètres entrant-sortant: tAdh, tableau d'Adherent
+nom, nom de l'Adherent à rechercher
+prenom, prénom de l'Adherent à rechercher
+Valeur retourné: i, position de l'Adherent dans le tableau ou -1 si l'Adherent n'a pas été trouvé
+Variables : i, position de l'Adherent dans le tableau
+*/
+int rechAdherent(Adherent * tAdh, int nbAdh, char * nom, char * prenom){
+	int i;
+
+	for (i = 0; i < nbAdh; i++){
+		if (strcasecmp(tAdh[i].nom,nom) == 0 && strcasecmp(tAdh[i].prenom,prenom) == 0)
+			return i;
+	}
+	return -1;
+}
+
+/* Nom : rechEmpruntJeu
+Finalité : Recherhe de la position d'un Emprunt dans un tableau d'Emprunt grâce au nom et au prénom de l'Adherent ainsi qu'au nom du jeu emprunté
+Paramètres entrant: nbEmp, nombre total d'Emprunt
+Paramètres entrant-sortant: tEmp, tableau d'Emprunt
+nom, nom de l'Adherent dont on recherhe un emprunt
+prenom, prénom de l'Adherent dont on recherche un emprunt
+jeu, nom du jeu dont on recherche l'emprunt par un Adherent spécifique
+Valeur retourné: i, position de l'Emprunt dans un tableau d'Emprunt ou -1 lorque l'Emprunt n'a pas été trouvé
+Variables : i, position de l'Emprunt dans un tableau d'Emprunt
+*/
+int rechEmpruntJeu(Emprunt * tEmp, int nbEmp, char * nom, char * prenom, char * jeu){
+	int i;
+
+	for (i = 0; i < nbEmp; i++){
+		if (strcasecmp(tEmp[i].nom, nom) == 0 && strcasecmp(tEmp[i].prenom, prenom) == 0 && strcasecmp(tEmp[i].jeux, jeu) == 0)
+			return i;
+	}
+	couleur("31");
+	printf("\nL'emprunt du jeu : %s par %s %s n'a pas été trouvé\n", jeu, nom, prenom);
+	couleur("0");
+	return -1;
+}
+
+/* Nom : rechAprem
+Finalité : Recherhe de la position d'un Aprem (après-midi thématique) dans un tableau d'Aprem
+Paramètres entrant: nbAprem, nombre total d'Aprem
+Paramètres entrant-sortant: tAprem, tableau d'Aprem
+date, date de l'Aprem recherché
+heure, heure de l'Aprem recherché
+Valeur retourné: i, position de l'Aprem dans un tableau d'Aprem ou -1 lorque l'Aprem n'a pas été trouvé
+Variables : i, position de l'Aprem dans un tableau d'Aprem
+*/
+int rechAprem(Aprem * tAprem, int nbAprem, char * date, char * heure){
+	int i;
+
+	if (strcmp(heure, " ") == 0){
+		for (i = 0; i < nbAprem; i++)
+			if (strcasecmp(tAprem[i].date, date) == 0)
+				return i;
+	}
+
+	else {
+		for (i = 0; i < nbAprem; i++)
+			if (strcasecmp(tAprem[i].date, date) == 0 && strcasecmp(tAprem[i].heure, heure) == 0)
+				return i;
+	}
+	return -1;
+}
+
+/* Nom : rechAdhAprem
+Finalité : Recherhche de la position d'un AdhAprem (adhérent à un après-midi thématique) dans un tableau d'AdhAprem
+Paramètres entrant: nbAdhAprem, nombre total d'adhérents aux après-midi thématiques
+Paramètres entrant-sortant: tAdhAprem, tableau d'AdhAprem
+date, date de l'Aprem recehrché
+heure, heure de l'Aprem recherché
+nom, nom de l'Adherent recherché
+prenom, prénom de l'Adherent recherché
+Valeur retourné: i, position de l'AdhAprem dans un tableau d'AdhAprem ou -1 lorque l'AdhAprem n'a pas été trouvé
+Variables : i, position de l'AdhAprem dans un tableau d'AdhAprem ou -1 lorque l'AdhAprem n'a pas été trouvé
+*/
+int rechAdhAprem(AdhAprem * tAdhAprem, int nbAdhAprem, char * date, char * heure, char * nom, char * prenom){
+	int i;
+
+	for (i = 0; i < nbAdhAprem; i++){
+		if (strcasecmp(tAdhAprem[i].date, date) == 0 && strcasecmp(tAdhAprem[i].heure, heure) == 0 && strcasecmp(tAdhAprem[i].nom, nom) == 0 && strcasecmp(tAdhAprem[i].prenom, prenom) == 0)
+			return i;			
+	}
+	return -1;
+}
+
+/* Nom : rechJeux
+Finalité : recherche de l'existance d'un Jeux dans une liste de Jeux grâce à son nom
+Paramètres entrant: j, liste de Jeux
+Paramètres entrant-sortant: jeu, nom du Jeux à rechercher
+Valeur retourné: trouve, valeur supérieure à 0 lorsque le Jeux existe, -1 sinon
+Variables : trouve, valeur supérieure à 0 lorsque le Jeux existe, -1 sinon
+*/
+int rechJeux(ListeJ j, char * jeu){
+	int trouve = 0;
+
+	while (j != NULL){
+		if (strcasecmp(j->nom, jeu) == 0)
+			return trouve;
+		j = j->suiv;
+		trouve++;
+	}
+	return -1;
+}
+
+/* Nom : verifDateEmprunt
+Finalité : Vérifie qu'un emprunt (qui n'a pas de date de retour) n'est pas en retard c'est à dire qu'il n'est pas emprunté depuis plus de 3 semaines
+Paramètres entrant: emp, Emprunt dont on veut vérifier le retard
+Paramètres entrant-sortant: Aucun
+Valeur retourné: 1, si l'Emprunt n'est pas en retard; 0 si il y a eu une erreur d'ouverture avec un fichier et -1 si l'Emprunt est en retard
+Variables : jourA, valeur du jour actuel
+moisA, valeur du mois actuel
+anneeA, valeur de l'année actuelle
+jourR, valeur du jour maximal (3 semaines avant la date d'aujourd'hui) pour lequel les emprunts sont encore en règle
+moisR, valeur du mois maximal
+anneeR, valeur de l'année maximale
+rendre, chaîne de caractère de la forme AAAA-MM-JJ à comparer avec la date d'emprunt  pour vérifier le respect des contraintes par l'Emprunt
+*/
+int verifDateEmprunt(Emprunt emp){
+	int jourA, moisA, anneeA, jourR, moisR, anneeR;
+	char rendre[11];
+
+	FILE * fe = fopen("date.txt", "r");
+	FILE * fs = fopen("retard.don","w");
+	if (fe == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier date.txt\n");
+		couleur("0");
+		return 0;
+	}
+	if (fs == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier retard.don\n");
+		couleur("0");
+		return 0;
+	}
+	
+	if(strcmp(emp.dateR, "") == 0){
+		system("date +%Y-%m-%d>date.txt");
+		fscanf(fe, "%d%*c%d%*c%d", &anneeA, &moisA, &jourA);
+		anneeR = anneeA;
+		moisR = moisA;
+		jourR = jourA;
+
+		if(moisR == 1 || moisR == 2 || moisR == 4 || moisR == 6 || moisR == 8 || moisR == 9 || moisR == 11 && jourR > 21){
+			jourR -= 21;
+		}
+		else if(moisR == 1 || moisR == 2 || moisR == 4 || moisR == 6 || moisR == 8 || moisR == 9 || moisR == 11 && jourR <= 21){
+			jourR += 10;
+			moisR--;
+		}
+		else if(moisR == 3 || moisR == 5 || moisR == 7 || moisR == 10 || moisR == 12 && jourR > 21){
+			jourR -= 21;
+		}
+		else if(moisR == 3 || moisR == 5 || moisR == 7 || moisR == 10 || moisR == 12 && jourR <= 21){
+			jourR +=9;
+			moisR--;
+		}
+		if(moisR == 0){
+			moisR = 12;
+			anneeR--;
+		}
+
+		if ((moisR == 1 || moisR == 2 || moisR == 3 || moisR == 4 || moisR == 5 || moisR == 6 || moisR == 7 || moisR == 8 || moisR == 9) && (jourR == 1 || jourR == 2 || jourR == 3 || jourR == 4 || jourR == 5 || jourR == 6 || jourR == 7 || jourR == 8 || jourR == 9))
+			fprintf(fs, "%d-0%d-0%d\n", anneeR, moisR, jourR);
+
+		else if (moisR == 1 || moisR == 2 || moisR == 3 || moisR == 4 || moisR == 5 || moisR == 6 || moisR == 7 || moisR == 8 || moisR == 9)
+			fprintf(fs, "%d-0%d-%d\n", anneeR, moisR, jourR);
+		
+		else if (jourR == 1 || jourR == 2 || jourR == 3 || jourR == 4 || jourR == 5 || jourR == 6 || jourR == 7 || jourR == 8 || jourR == 9)
+			fprintf(fs, "%d-%d-0%d\n", anneeR, moisR, jourR);
+		
+		else
+			fprintf(fs, "%d-%d-%d\n", anneeR, moisR, jourR);
+
+		fclose(fs);
+		FILE * fs = fopen("retard.don","r");
+		if (fs == NULL){
+			couleur("31");
+			printf("Erreur lors de l'ouverture du fichier test.don\n");
+			couleur("0");
+			return 0;
+		}
+		
+		fgets(rendre,16,fs);
+		if (rendre[strlen(rendre)-1] == '\n')
+			rendre[strlen(rendre)-1] = '\0';
+
+		if (strcasecmp(emp.dateE, rendre) < 0)
+			return -1;
+	}
+
+	fclose(fe);
+	fclose(fs);
+	return 1;
+}
+
+/* Nom : rechNbAD
+Finalité : Retourne le nombre d'Aprem ayant pour date une date recherchée
+Paramètres entrant: nbAprem, nombre total d'Aprem
+Paramètres entrant-sortant: tAprem, tableau d'Aprem
+date, date recherchée
+Valeur retourné: nb, compteur donnant le nombre de dates identiques à la date recherchée
+Variables : i, compteur
+nb, compteur
+*/
+int rechNbAD(Aprem *tAprem, int nbAprem, char * date){
+	int i, nb = 0;
+
+	for (i = 0; i < nbAprem; i++)
+		if (strcmp(tAprem[i].date, date) == 0)
+			nb++;
+
+	return nb;
 }
 
 /* Nom : rechAdh
@@ -2524,7 +2400,7 @@ void rechAp(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int nbAdhAprem){
 		printf("\nLes adhérents inscrits à l'après-midi thématique du \"%s\" à \"%s\" sont :\n", date, heure);
 
 	for( i = 0; i < nbAdhAprem; i++){
-		if (strcasecmp(tAdhAprem[i].date, date) == 0 && strcasecmp(tAdhAprem[i].heure, heure) == 0){
+		if (strcasecmp(tAdhAprem[i].date, date) == 0 && strcasecmp(tAdhAprem[i].heure, heure) == 0 || strcasecmp(tAdhAprem[i].date, date) == 0 && strcasecmp(heure, " ") == 0){
 			if (strlen(tAdhAprem[i].nom) > 7)
 				printf("%s\t%s\n", tAdhAprem[i].nom, tAdhAprem[i].prenom);
 			else
@@ -2533,14 +2409,154 @@ void rechAp(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int nbAdhAprem){
 	}
 }
 
-int rechNbAD(Aprem *tAprem, int nbAprem, char * date){
-	int i, nb = 0;
+/* Nom : rechJeu
+Finalité : recherche d'un jeu dans une liste de jeux pour ensuite afficher toutes les informations concernant ce jeu
+Paramètres entrant: j, liste de jeux
+nbJeux, nombre total de jeux
+nbEmp, nombre total d'Emprunt
+Paramètres entrant-sortant: tEmp, tableau d'Emprunt
+Valeur retourné: Aucune
+Variables : nomJ, nom du jeu recherché
+trouve, valeur de la recherche du jeu (grâce à son nom) dans la liste de jeux
+i, compteur
+*/
+void rechJeu(ListeJ j, int nbJeux, Emprunt * tEmp, int nbEmp){
+	char nomJ[30];
+	int trouve, exemp, i;
 
-	for (i = 0; i < nbAprem; i++)
-		if (strcmp(tAprem[i].date, date) == 0)
-			nb++;
+	couleur("33");
+	printf("Nom du jeu : ");
+	couleur("0");
+	fgets(nomJ, 31, stdin);
+	if (nomJ[strlen(nomJ)-1] == '\n')
+		nomJ[strlen(nomJ)-1] = '\0';
 
-	return nb;
+	trouve = rechJeux(j, nomJ);
+	if (trouve == -1){
+		couleur("31");
+		printf("\nLe jeu : %s n'a pas été trouvé\n", nomJ);
+		couleur("0");
+		return;
+	}
+
+	for (i = 0; i < trouve; i++)
+		j = j->suiv;
+
+	if (j->stock == 0){
+		printf("\nIl ne reste plus d'exemplaires du jeu \"%s\" en stock\n", j->nom);
+	}
+	else
+		printf("\nIl reste %d exemplaires du jeu \"%s\" en stock\n", j->stock, j->nom);
+
+	if (j->nbEx - j->stock == 0)
+		printf("Aucun n'emprunt n'est en cours avec le jeu \"%s\"\n", j->nom);
+	else if (j->nbEx - j->stock == 1)
+		printf("\nL'adhérent ayant un empunt en cours avec le jeu \"%s\" est :\n", j->nom);
+	else
+		printf("\nLes adhérents ayant un emprunt en cours avec le jeu \"%s\" sont :\n", j->nom);
+	for( i = 0; i < nbEmp; i++){
+		if (strcasecmp(tEmp[i].jeux, nomJ) == 0 && strcmp(tEmp[i].dateR, "") == 0){
+			if (strlen(tEmp[i].nom) > 7)
+				printf("%s\t%s\n", tEmp[i].nom, tEmp[i].prenom);
+			else
+				printf("%s\t\t%s\n", tEmp[i].nom, tEmp[i].prenom);
+		}
+	}
+}
+
+/* Nom : save
+Finalité : sauvegarde tous les tableaux (Adherent, Emprunt, Aprem, AdhAprem) et la liste (Jeux)
+dans des fchiers (chargés au d"but du programme) permettant à la ludothèque de réutiliser les données
+Paramètres entrant: j, liste de jeux
+nbAdh, nombre total d'Adherent
+nbEmp, nombre total d'Emprunt
+nbAprem, nombre total d'Aprem
+nbAdhAprem, nombre total d'AdhAprem
+nbJeux, nombre total de jeux
+Paramètres entrant-sortant: tAdh, tableau d'Adherent
+tEmp, tableau d'Emprunt
+tAprem, tableau d'Aprem
+tAdhAprem, tableau d'AdhAprem
+Valeur retourné: Aucune
+Variables : i, compteur
+flot1, flot d'écriture dans lequel vont être stockés les Adherent
+flot2, flot d'écriture dans lequel vont être stockés les Emprunt
+flot3, flot d'écriture dans lequel vont être stockés les Aprem
+flot4, flot d'écriture dans lequel vont être stockés les AdhAprem
+flot5, flot binaire d'écriture dans lequel vont être stockés les jeux
+*/
+void save(Adherent * tAdh, Emprunt * tEmp, Aprem * tAprem, AdhAprem * tAdhAprem, ListeJ j, int nbAdh, int nbEmp, int nbAprem, int nbAdhAprem, int nbJeux){
+	int i;
+	
+	FILE * flot1 = fopen("adhérents.don","w");
+	if (flot1 == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier adhérents.don\n");
+		couleur("0");
+		return;
+	}
+	FILE * flot2 = fopen("emprunts.don","w");
+	if (flot2 == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier emprunts.don\n");
+		couleur("0");
+		return;
+	}
+	FILE * flot3 = fopen("am_thématiques.don","w");
+	if (flot3 == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier am_thématiques.don\n");
+		couleur("0");
+		return;
+	}
+	FILE * flot4 = fopen("inscription_am_th.don","w");
+	if (flot4 == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier inscription_am_th.don\n");
+		couleur("0");
+		return;
+	}
+	FILE * flot5 = fopen("jeux.bin","wb");
+	if (flot5 == NULL){
+		couleur("31");
+		printf("Erreur lors de l'ouverture du fichier jeux.don\n");
+		couleur("0");
+		return;
+	}
+
+	fprintf(flot1, "%d\n", nbAdh);
+	for(i = 0; i < nbAdh; i++){
+		fprintf(flot1, "%s\n%s\n%s\n%s\n%s\n%d\n", tAdh[i].nom, tAdh[i].prenom, tAdh[i].date, tAdh[i].tel, tAdh[i].ville, tAdh[i].nbEmp);
+	}
+
+	fprintf(flot2, "%d\n", nbEmp);
+	for(i = 0; i < nbEmp; i++){
+		fprintf(flot2, "%s\n%s\n%s\n%s\n%s\n", tEmp[i].nom, tEmp[i].prenom, tEmp[i].jeux, tEmp[i].dateE, tEmp[i].dateR);
+	}
+
+	fprintf(flot3, "%d\n", nbAprem);
+	for(i = 0; i < nbAprem; i++){
+		fprintf(flot3, "%s %s %d %d\n", tAprem[i].date, tAprem[i].heure, tAprem[i].places, tAprem[i].placesL);
+	}
+
+	fprintf(flot4, "%d\n", nbAdhAprem);
+	for(i = 0; i < nbAdhAprem; i++){
+		fprintf(flot4, "%s %s\n%s\n%s\n", tAdhAprem[i].date, tAdhAprem[i].heure, tAdhAprem[i].nom, tAdhAprem[i].prenom);
+	}
+
+	fprintf(flot5, "%d\n", nbJeux);
+	while (j != NULL){
+		fwrite(j->nom, 30, 1, flot5);
+		fwrite(&j->nbEx, 4, 1, flot5);
+		fwrite(j->type, 30, 1, flot5);
+		j = j->suiv;
+	}
+
+	fclose(flot1);
+	fclose(flot2);
+	fclose(flot3);
+	fclose(flot4);
+	fclose(flot5);
 }
 
 /* Nom : supprListeJeux

@@ -41,68 +41,71 @@ typedef struct cell{
 
 typedef Cellule * ListeJ;
 
-char saisirChoix(void);
-ListeJ jVide(void);
-Emprunt lireEmp(FILE *fe);
-Emprunt *chargeTEmprunts(char *nomFichier, int * nbEmpT);
-void afficheEmp(Emprunt emp);
-Adherent lireAdherent(FILE *fe);
-Adherent *chargeTAdherent(char *nomFichier, int * nbAdh);
-void afficheAdh1(Adherent adh);
-void afficheAdh2(Adherent adh);
-void afficheAdh3(Adherent adh);
-Adherent * newAdherent(Adherent *tAdh,int *nbAdh);
-void supprAdherent(Adherent * tAdh, int * nbAdh);
-void modifAdh (Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmp, AdhAprem * tAdhAprem, int nbAdhAprem, char choix);
-int rechAdherent(Adherent * tAdh, int nbAdh, char * nom, char * prenom);
-Emprunt * newEmprunt(Emprunt *tEmp, int *nbEmp, Adherent * tAdh, int nbAdh, ListeJ j);
-Aprem lireAprem(FILE *fe);
-Aprem *chargeAprem(char *nomFichier, int * nbAprem);
-void afficheAprem(Aprem ap);
-Aprem * newAprem(Aprem * tAprem, int * nbAprem);
-void supprAprem(Aprem * tAprem, int * nbAprem, AdhAprem * tAdhAprem, int * nbAdhAprem);
-void modifAprem(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int nbAdhAprem, char choix);
-AdhAprem lireAdhAprem(FILE *fe);
-AdhAprem *chargeAdhAprem(char *nomFichier, int * nbAdhAprem);
-void afficheAdhAprem(AdhAprem aap, char choix);
-AdhAprem * newAdhAprem(AdhAprem * tAdhAprem, int * nbAdhAprem, Adherent * tAdh, int nbAdh, Aprem * tAprem, int nbAprem);
-void supprAdhAprem(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int * nbAdhAprem);
-ListeJ newJeu(ListeJ j, int *nbJeux);
-ListeJ supprJeu(ListeJ j,int * nbJeux, char * nomJ);
-ListeJ modifJeu(ListeJ j, Emprunt * tEmp, int nbEmp, char choix, char * nomJ);
 
+char saisirChoix(void);
+Adherent lireAdherent(FILE *fe);
+Emprunt lireEmp(FILE *fe);
+Aprem lireAprem(FILE *fe);
+AdhAprem lireAdhAprem(FILE *fe);
 ListeJ lireJeux(FILE *fe);
+Adherent *chargeTAdherent(char *nomFichier, int * nbAdh);
+Emprunt *chargeTEmprunts(char *nomFichier, int * nbEmpT);
+Aprem *chargeAprem(char *nomFichier, int * nbAprem);
+AdhAprem *chargeAdhAprem(char *nomFichier, int * nbAdhAprem);
 ListeJ chargeJeux(char *nomFichier, int * nbJeux, Emprunt * tEmp, int nbEmp);
 ListeJ insererEnTete(ListeJ j);
-void afficheJeux(ListeJ j);
-
-int rechJeux(ListeJ j, char * jeu);
+Adherent * newAdherent(Adherent *tAdh,int *nbAdh);
+Emprunt * newEmprunt(Emprunt *tEmp, int *nbEmp, Adherent * tAdh, int nbAdh, ListeJ j);
+Aprem * newAprem(Aprem * tAprem, int * nbAprem);
+AdhAprem * newAdhAprem(AdhAprem * tAdhAprem, int * nbAdhAprem, Adherent * tAdh, int nbAdh, Aprem * tAprem, int nbAprem);
+ListeJ newJeu(ListeJ j, int *nbJeux);
+void supprAdherent(Adherent * tAdh, int * nbAdh);
 void rendreJeu(Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmpT, ListeJ j);
-int rechEmpruntJeu(Emprunt * tEmp, int nbEmpT, char * nom, char * prenom, char * jeu);
-int rechAprem(Aprem * tAprem, int nbAprem, char * date, char * heure);
-int rechAdhAprem(AdhAprem * tAdhAprem, int nbAdhAprem, char * date, char * heure, char * nom, char * prenom);
-int verifDateEmprunt(Emprunt tEmp);
-void triSelectEmp(Emprunt * tEmp, int nbEmp, char choix);
-int rechminEN(Emprunt * tEmp, int nbEmp);
-int rechminEP(Emprunt * tEmp, int nbEmp);
-int rechminEJ(Emprunt * tEmp, int nbEmp);
+void supprAprem(Aprem * tAprem, int * nbAprem, AdhAprem * tAdhAprem, int * nbAdhAprem);
+void supprAdhAprem(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int * nbAdhAprem);
+ListeJ supprJeu(ListeJ j,int * nbJeux, char * nomJ);
+void modifAdh(Adherent * tAdh, int nbAdh, Emprunt * tEmp, int nbEmp, AdhAprem * tAdhAprem, int nbAdhAprem, char choix);
+void modifAprem(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int nbAdhAprem, char choix);
+ListeJ modifJeu(ListeJ j, Emprunt * tEmp, int nbEmp, char choix, char * nomJ);
+// Tri
 void triInsertionAdh(Adherent * tAdh, int nbAdh);
 int rechPosDichoAN(Adherent  * tAdh, int nbAdh, Adherent adh);
 void bulleAdhP(Adherent  * tAdh, int nbAdh);
 void bulleAdhD(Adherent  * tAdh, int nbAdh);
 void bulleAdhnbE(Adherent  * tAdh, int nbAdh);
+void triSelectEmp(Emprunt * tEmp, int nbEmp, char choix);
+int rechminEN(Emprunt * tEmp, int nbEmp);
+int rechminEP(Emprunt * tEmp, int nbEmp);
+int rechminEJ(Emprunt * tEmp, int nbEmp);
 void bulleApremD(Aprem * tAprem, int nbAprem);
 void bulleApremP(Aprem * tAprem, int nbAprem, char choix);
 void bulleAdhApremD(AdhAprem * tAdhAprem, int nbAdhAprem);
 void bulleAdhAprem(AdhAprem * tAdhAprem, int nbAdhAprem, char choix);
-void rechJeu(ListeJ j, int nbJeux, Emprunt * tEmp, int nbEmp);
+ListeJ triJeux(ListeJ j, int nbJeux, char choix);
+ListeJ jVide(void);
+ListeJ ajouter(ListeJ triJeux, ListeJ j, char choix);
+ListeJ insererEnTete2(ListeJ triJeux, ListeJ j);
+// Affichages données
+void afficheAdh(Adherent adh, char choix);
+void afficheEmp(Emprunt emp);
+void afficheAprem(Aprem ap);
+void afficheAdhAprem(AdhAprem aap, char choix);
+void afficheJeux(ListeJ j);
+// Vérifications
+int rechAdherent(Adherent * tAdh, int nbAdh, char * nom, char * prenom);
+int rechEmpruntJeu(Emprunt * tEmp, int nbEmpT, char * nom, char * prenom, char * jeu);
+int rechAprem(Aprem * tAprem, int nbAprem, char * date, char * heure);
+int rechAdhAprem(AdhAprem * tAdhAprem, int nbAdhAprem, char * date, char * heure, char * nom, char * prenom);
+int rechJeux(ListeJ j, char * jeu);
+int verifDateEmprunt(Emprunt tEmp);
+int rechNbAD(Aprem *tAprem, int nbAprem, char * date);
+// Recherche (choix 7)
 void rechAdh(Adherent * tAdh, int nbAdh, AdhAprem * tAdhAprem, int nbAdhAprem, Emprunt * tEmp, int nbEmp);
 void rechAp(Aprem * tAprem, int nbAprem, AdhAprem * tAdhAprem, int nbAdhAprem);
-int rechNbAD(Aprem *tAprem, int nbAprem, char * date);
+void rechJeu(ListeJ j, int nbJeux, Emprunt * tEmp, int nbEmp);
+// Sortie du programme
+void save(Adherent * tAdh, Emprunt * tEmp, Aprem * tAprem, AdhAprem * tAdhAprem, ListeJ j, int nbAdh, int nbEmp, int nbAprem, int nbAdhAprem, int nbJeux);
 ListeJ supprListeJeux(ListeJ j);
+// Affichage Menus
 void affichMenu(void);
 void affichGrandMenu(void);
-
-ListeJ insererEnTete2(ListeJ triJeux, ListeJ j);
-ListeJ triJeux(ListeJ j, int nbJeux, char choix);
-ListeJ ajouter(ListeJ triJeux, ListeJ j, char choix);
